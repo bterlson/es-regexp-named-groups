@@ -10,12 +10,12 @@ Named capture groups provide a nice solution for these issues.
 
 ## High Level API
 
-A capture group can be given a name using the `(?<name>...)` syntax, for any identifer `name`. The regular expression for a date then can be written as `/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/`. Each name should be unique and follow the grammar for ECMAScript identifiers.
+A capture group can be given a name using the `(?<name>...)` syntax, for any identifer `name`. The regular expression for a date then can be written as `/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u`. Each name should be unique and follow the grammar for ECMAScript identifiers.
 
 Named groups can be accessed from properties of the regular expression result. Numbered references to the groups are also created, just as for non-named groups. For example:
 
 ```js
-let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
 let result = re.exec('2015-01-02');
 // result.year === '2015';
 // result.month === '01';
@@ -30,7 +30,7 @@ let result = re.exec('2015-01-02');
 The interface interacts nicely with destructuring, as in the following example:
 
 ```js
-let {one, two} = /^(?<one>.*):(?<two>.*)$/.exec('foo:bar');
+let {one, two} = /^(?<one>.*):(?<two>.*)$/u.exec('foo:bar');
 console.log(`one: ${one}, two: ${two}`);  // prints one: foo, two: bar
 ```
 
@@ -57,7 +57,7 @@ duplicate.test('a*a*b'); // false
 Named groups can be referenced from the replacement value passed to `String.prototype.replace` too. If the value is a string, named groups can be accessed using the `$<name>` syntax. For example:
 
  ```js
-let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
 let result = '2015-01-02'.replace(re, '$<day>/$<month>/$<year>');
 // result === '02/01/2015'
 ```
