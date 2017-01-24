@@ -1,30 +1,1810 @@
 <!doctype html>
 <head><meta charset="utf-8">
-<title>Named capture groups in regular expressions</title><script type="application/json" id="menu-search-biblio">[{"type":"production","id":"prod-Atom","name":"Atom","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"Atom"},{"type":"production","id":"prod-AtomEscape","name":"AtomEscape","referencingIds":["_ref_18"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"AtomEscape"},{"type":"production","id":"prod-GroupSpecifier","name":"GroupSpecifier","referencingIds":["_ref_19","_ref_22","_ref_23","_ref_25","_ref_27","_ref_30","_ref_32","_ref_33","_ref_34","_ref_35"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"GroupSpecifier"},{"type":"production","id":"prod-GroupName","name":"GroupName","referencingIds":["_ref_20","_ref_21","_ref_26","_ref_28","_ref_29","_ref_31","_ref_36"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"GroupName"},{"type":"clause","id":"sec-patterns","aoid":null,"title":"Patterns (#sec-patterns)","titleHTML":"Patterns (<a href=\"https://tc39.github.io/ecma262/#sec-patterns\">#sec-patterns</a>)","number":"1","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"Patterns (#sec-patterns)"},{"type":"production","id":"prod-Pattern","name":"Pattern","referencingIds":["_ref_24"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"Pattern"},{"type":"clause","id":"sec-patterns-static-semantics-early-errors","aoid":null,"title":"Static Semantics: Early Errors (#sec-patterns-static-semantics-early-errors)","titleHTML":"Static Semantics: Early Errors (<a href=\"https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors\">#sec-patterns-static-semantics-early-errors</a>)","number":"2","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"Static Semantics: Early Errors (#sec-patterns-static-semantics-early-errors)"},{"type":"op","aoid":"BackreferenceMatcher","refId":"sec-backreference-matcher","location":"","referencingIds":[],"key":"BackreferenceMatcher"},{"type":"clause","id":"sec-backreference-matcher","aoid":"BackreferenceMatcher","title":"Runtime Semantics: BackreferenceMatcher Abstract Operation","titleHTML":"Runtime Semantics: BackreferenceMatcher Abstract Operation","number":"3","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":["_ref_2"],"key":"Runtime Semantics: BackreferenceMatcher Abstract Operation"},{"type":"clause","id":"sec-atomescape","aoid":null,"title":"AtomEscape","titleHTML":"AtomEscape","number":"4","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"AtomEscape"},{"type":"op","aoid":"RegExpBuiltinExec","refId":"sec-regexpbuiltinexec","location":"","referencingIds":[],"key":"RegExpBuiltinExec"},{"type":"clause","id":"sec-regexpbuiltinexec","aoid":"RegExpBuiltinExec","title":"Runtime Semantics: RegExpBuiltinExec ( R, S )","titleHTML":"Runtime Semantics: RegExpBuiltinExec ( <var>R</var>, <var>S</var> )","number":"5","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"Runtime Semantics: RegExpBuiltinExec ( R, S )"}]</script></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-patterns" title="Patterns (#sec-patterns)"><span class="secnum">1</span> Patterns (</a><a href="https://tc39.github.io/ecma262/#sec-patterns">#sec-patterns</a>)</li><li><span class="item-toggle-none"></span><a href="#sec-patterns-static-semantics-early-errors" title="Static Semantics: Early Errors (#sec-patterns-static-semantics-early-errors)"><span class="secnum">2</span> SS: Early Errors (</a><a href="https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors">#sec-patterns-static-semantics-early-errors</a>)</li><li><span class="item-toggle-none"></span><a href="#sec-backreference-matcher" title="Runtime Semantics: BackreferenceMatcher Abstract Operation"><span class="secnum">3</span> RS: BackreferenceMatcher Abstract Operation</a></li><li><span class="item-toggle-none"></span><a href="#sec-atomescape" title="AtomEscape"><span class="secnum">4</span> AtomEscape</a></li><li><span class="item-toggle-none"></span><a href="#sec-regexpbuiltinexec" title="Runtime Semantics: RegExpBuiltinExec ( R, S )"><span class="secnum">5</span> RS: RegExpBuiltinExec ( <var>R</var>, <var>S</var> )</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage 2 Draft / January 9, 2017</h1><h1 class="title">Named capture groups in regular expressions</h1>
+<title>Named capture groups in regular expressions</title><script type="application/json" id="menu-search-biblio">[{"type":"production","id":"prod-Atom","name":"Atom","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"Atom"},{"type":"production","id":"prod-AtomEscape","name":"AtomEscape","referencingIds":["_ref_56"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"AtomEscape"},{"type":"production","id":"prod-GroupSpecifier","name":"GroupSpecifier","referencingIds":["_ref_57","_ref_61","_ref_63","_ref_66","_ref_68","_ref_69","_ref_70","_ref_71"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"GroupSpecifier"},{"type":"production","id":"prod-GroupName","name":"GroupName","referencingIds":["_ref_58","_ref_59","_ref_62","_ref_64","_ref_65","_ref_67","_ref_73","_ref_76","_ref_77"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"GroupName"},{"type":"clause","id":"sec-patterns","aoid":null,"title":"Patterns (#sec-patterns)","titleHTML":"Patterns (<a href=\"https://tc39.github.io/ecma262/#sec-patterns\">#sec-patterns</a>)","number":"1","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":["_ref_0","_ref_1"],"key":"Patterns (#sec-patterns)"},{"type":"production","id":"prod-Pattern","name":"Pattern","referencingIds":["_ref_60","_ref_72","_ref_74","_ref_75"],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"Pattern"},{"type":"clause","id":"sec-patterns-static-semantics-early-errors","aoid":null,"title":"Static Semantics: Early Errors (#sec-patterns-static-semantics-early-errors)","titleHTML":"Static Semantics: Early Errors (<a href=\"https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors\">#sec-patterns-static-semantics-early-errors</a>)","number":"2","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"Static Semantics: Early Errors (#sec-patterns-static-semantics-early-errors)"},{"type":"op","aoid":"BackreferenceMatcher","refId":"sec-backreference-matcher","location":"","referencingIds":[],"key":"BackreferenceMatcher"},{"type":"clause","id":"sec-backreference-matcher","aoid":"BackreferenceMatcher","title":"Runtime Semantics: BackreferenceMatcher Abstract Operation","titleHTML":"Runtime Semantics: BackreferenceMatcher Abstract Operation","number":"3","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":["_ref_4"],"key":"Runtime Semantics: BackreferenceMatcher Abstract Operation"},{"type":"clause","id":"sec-atomescape","aoid":null,"title":"AtomEscape","titleHTML":"AtomEscape","number":"4","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"AtomEscape"},{"type":"op","aoid":"RegExpInitialize","refId":"sec-regexpinitialize","location":"","referencingIds":[],"key":"RegExpInitialize"},{"type":"clause","id":"sec-regexpinitialize","aoid":"RegExpInitialize","title":"Runtime Semantics: RegExpInitialize ( obj, pattern, flags )","titleHTML":"Runtime Semantics: RegExpInitialize ( <var>obj</var>, <var>pattern</var>, <var>flags</var> )","number":"5","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"Runtime Semantics: RegExpInitialize ( obj, pattern, flags )"},{"type":"op","aoid":"RegExpBuiltinExec","refId":"sec-regexpbuiltinexec","location":"","referencingIds":[],"key":"RegExpBuiltinExec"},{"type":"clause","id":"sec-regexpbuiltinexec","aoid":"RegExpBuiltinExec","title":"Runtime Semantics: RegExpBuiltinExec ( R, S )","titleHTML":"Runtime Semantics: RegExpBuiltinExec ( <var>R</var>, <var>S</var> )","number":"6","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"Runtime Semantics: RegExpBuiltinExec ( R, S )"},{"type":"table","id":"table-45","number":1,"caption":"Table 1: Replacement Text Symbol Substitutions","referencingIds":[],"namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","key":"Table 1: Replacement Text Symbol Substitutions"},{"type":"op","aoid":"GetSubstitution","refId":"sec-getsubstitution","location":"","referencingIds":[],"key":"GetSubstitution"},{"type":"clause","id":"sec-getsubstitution","aoid":"GetSubstitution","title":"Runtime Semantics: GetSubstitution( matched, str, position, captures,  namedCaptures, replacement )","titleHTML":"Runtime Semantics: GetSubstitution( <var>matched</var>, <var>str</var>, <var>position</var>, <var>captures</var>,  <ins><var>namedCaptures</var>,</ins> <var>replacement</var> )","number":"7","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":["_ref_55"],"key":"Runtime Semantics: GetSubstitution( matched, str, position, captures,  namedCaptures, replacement )"},{"type":"clause","id":"sec-regexp.prototype-@@replace","aoid":null,"title":"RegExp.prototype [ @@replace ] ( string, replaceValue )","titleHTML":"RegExp.prototype [ @@replace ] ( <var>string</var>, <var>replaceValue</var> )","number":"8","namespace":"https://github.com/tc39/proposal-regexp-named-groups","location":"","referencingIds":[],"key":"RegExp.prototype [ @@replace ] ( string, replaceValue )"}]</script><script>"use strict";
+
+function Search(menu) {
+  this.menu = menu;
+  this.$search = document.getElementById('menu-search');
+  this.$searchBox = document.getElementById('menu-search-box');
+  this.$searchResults = document.getElementById('menu-search-results');
+  
+  this.loadBiblio();
+  
+  document.addEventListener('keydown', this.documentKeydown.bind(this));
+  
+  this.$searchBox.addEventListener('keydown', debounce(this.searchBoxKeydown.bind(this), { stopPropagation: true }));
+  this.$searchBox.addEventListener('keyup', debounce(this.searchBoxKeyup.bind(this), { stopPropagation: true }));
+}
+
+Search.prototype.loadBiblio = function () {
+  var $biblio = document.getElementById('menu-search-biblio');
+  if (!$biblio) {
+    this.biblio = [];
+  } else {
+    this.biblio = JSON.parse($biblio.textContent);
+    this.biblio.clauses = this.biblio.filter(function (e) { return e.type === 'clause' });
+    this.biblio.byId = this.biblio.reduce(function (map, entry) {
+      map[entry.id] = entry;
+      return map;
+    }, {});
+  }
+}
+
+Search.prototype.documentKeydown = function (e) {
+  if (e.keyCode === 191) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.triggerSearch();
+  }
+}
+
+Search.prototype.searchBoxKeydown = function (e) {
+  e.stopPropagation();
+  e.preventDefault();
+  if (e.keyCode === 191 && e.target.value.length === 0) {
+    e.preventDefault();
+  } else if (e.keyCode === 13) {
+    e.preventDefault();
+    this.selectResult();
+  }
+}
+
+Search.prototype.searchBoxKeyup = function (e) {
+  if (e.keyCode === 13 || e.keyCode === 9) {
+    return;
+  }
+  
+  this.search(e.target.value);
+}
+
+
+Search.prototype.triggerSearch = function (e) {
+  if (this.menu.isVisible()) {
+    this._closeAfterSearch = false;
+  } else {
+    this._closeAfterSearch = true;
+    this.menu.show();
+  }
+
+  this.$searchBox.focus();
+  this.$searchBox.select();
+}
+// bit 12 - Set if the result starts with searchString
+// bits 8-11: 8 - number of chunks multiplied by 2 if cases match, otherwise 1.
+// bits 1-7: 127 - length of the entry
+// General scheme: prefer case sensitive matches with fewer chunks, and otherwise
+// prefer shorter matches.
+function relevance(result, searchString) {
+  var relevance = 0;
+  
+  relevance = Math.max(0, 8 - result.match.chunks) << 7;
+  
+  if (result.match.caseMatch) {
+    relevance *= 2;
+  }
+  
+  if (result.match.prefix) {
+    relevance += 2048
+  }
+  
+  relevance += Math.max(0, 255 - result.entry.key.length);
+  
+  return relevance;
+}
+
+Search.prototype.search = function (searchString) {
+  var s = Date.now();
+
+  if (searchString === '') {
+    this.displayResults([]);
+    this.hideSearch();
+    return;
+  } else {
+    this.showSearch();
+  }
+  
+  if (searchString.length === 1) {
+    this.displayResults([]);
+    return;
+  }
+    
+  var results;
+
+  if (/^[\d\.]*$/.test(searchString)) {
+    results = this.biblio.clauses.filter(function (clause) {
+      return clause.number.substring(0, searchString.length) === searchString;
+    }).map(function (clause) {
+      return { entry: clause };
+    });
+  } else {
+    results = [];
+    
+    for (var i = 0; i < this.biblio.length; i++) {
+      var entry = this.biblio[i];
+  
+      var match = fuzzysearch(searchString, entry.key);
+      if (match) {
+        results.push({ entry: entry, match: match });
+      }
+    }
+  
+    results.forEach(function (result) {
+      result.relevance = relevance(result, searchString);
+    });
+    
+    results = results.sort(function (a, b) { return b.relevance - a.relevance });
+
+  }
+
+  if (results.length > 50) {
+    results = results.slice(0, 50);
+  }
+  
+  this.displayResults(results);
+}
+Search.prototype.hideSearch = function () {
+  this.$search.classList.remove('active');
+}
+
+Search.prototype.showSearch = function () {
+  this.$search.classList.add('active');
+}
+
+Search.prototype.selectResult = function () {
+  var $first = this.$searchResults.querySelector('li:first-child a');
+
+  if ($first) {
+    document.location = $first.getAttribute('href');
+  }
+  
+  this.$searchBox.value = '';
+  this.$searchBox.blur();
+  this.displayResults([]);
+  this.hideSearch();
+
+  if (this._closeAfterSearch) {
+    this.menu.hide();
+  }
+}
+
+Search.prototype.displayResults = function (results) {
+  if (results.length > 0) {
+    this.$searchResults.classList.remove('no-results');
+    
+    var html = '<ul>';
+
+    results.forEach(function (result) {
+      var entry = result.entry;
+      var id = entry.id;
+      var cssClass = '';
+      var text = '';
+
+      if (entry.type === 'clause') {
+        var number = entry.number ? entry.number + ' ' : '';
+        text = number + entry.key;
+        cssClass = 'clause';
+        id = entry.id;
+      } else if (entry.type === 'production') {
+        text = entry.key;
+        cssClass = 'prod';
+        id = entry.id;  
+      } else if (entry.type === 'op') {
+        text = entry.key;
+        cssClass = 'op';
+        id = entry.id || entry.refId;
+      } else if (entry.type === 'term') {
+        text = entry.key;
+        cssClass = 'term';
+        id = entry.id || entry.refId;
+      }
+
+      if (text) {
+        html += '<li class=menu-search-result-' + cssClass + '><a href="#' + id + '">' + text + '</a></li>'
+      }
+    });
+
+    html += '</ul>'
+
+    this.$searchResults.innerHTML = html;
+  } else {
+    this.$searchResults.innerHTML = '';
+    this.$searchResults.classList.add('no-results');
+  }
+}
+
+
+function Menu() {
+  this.$toggle = document.getElementById('menu-toggle');
+  this.$menu = document.getElementById('menu');
+  this.$toc = document.querySelector('menu-toc > ol');
+  this.$pins = document.querySelector('#menu-pins');
+  this.$pinList = document.getElementById('menu-pins-list');
+  this.$toc = document.querySelector('#menu-toc > ol');
+  this.$specContainer = document.getElementById('spec-container');
+  this.search = new Search(this);
+  
+  this._pinnedIds = {}; 
+  this.loadPinEntries();
+
+  // toggle menu
+  this.$toggle.addEventListener('click', this.toggle.bind(this));
+
+  // keydown events for pinned clauses
+  document.addEventListener('keydown', this.documentKeydown.bind(this));
+
+  // toc expansion
+  var tocItems = this.$menu.querySelectorAll('#menu-toc li');
+  for (var i = 0; i < tocItems.length; i++) {
+    var $item = tocItems[i];
+    $item.addEventListener('click', function($item, event) {
+      $item.classList.toggle('active');
+      event.stopPropagation();
+    }.bind(null, $item));
+  }
+
+  // close toc on toc item selection
+  var tocLinks = this.$menu.querySelectorAll('#menu-toc li > a');
+  for (var i = 0; i < tocLinks.length; i++) {
+    var $link = tocLinks[i];
+    $link.addEventListener('click', function(event) {
+      this.toggle();
+      event.stopPropagation();
+    }.bind(this));
+  }
+
+  // update active clause on scroll
+  window.addEventListener('scroll', debounce(this.updateActiveClause.bind(this)));
+  this.updateActiveClause();
+
+  // prevent menu scrolling from scrolling the body
+  this.$toc.addEventListener('wheel', function (e) {
+    var target = e.currentTarget;
+    var offTop = e.deltaY < 0 && target.scrollTop === 0;
+    if (offTop) {
+      e.preventDefault();
+    }
+    var offBottom = e.deltaY > 0
+                    && target.offsetHeight + target.scrollTop >= target.scrollHeight;
+
+    if (offBottom) {
+		  e.preventDefault();
+	  }
+  })
+}
+
+Menu.prototype.documentKeydown = function (e) {
+  e.stopPropagation();
+  if (e.keyCode === 80) {
+    this.togglePinEntry();
+  } else if (e.keyCode > 48 && e.keyCode < 58) {
+    this.selectPin(e.keyCode - 49);
+  }
+}
+
+Menu.prototype.updateActiveClause = function () {
+  this.setActiveClause(findActiveClause(this.$specContainer))
+}
+
+Menu.prototype.setActiveClause = function (clause) {
+  this.$activeClause = clause;
+  this.revealInToc(this.$activeClause);
+}
+
+Menu.prototype.revealInToc = function (path) {
+  var current = this.$toc.querySelectorAll('li.revealed');
+  for (var i = 0; i < current.length; i++) {
+    current[i].classList.remove('revealed');
+    current[i].classList.remove('revealed-leaf');
+  }
+  
+  var current = this.$toc;
+  var index = 0;
+  while (index < path.length) {
+    var children = current.children;
+    for (var i = 0; i < children.length; i++) {
+      if ('#' + path[index].id === children[i].children[1].getAttribute('href') ) {
+        children[i].classList.add('revealed');
+        if (index === path.length - 1) {
+          children[i].classList.add('revealed-leaf');
+          var rect = children[i].getBoundingClientRect();
+          this.$toc.getBoundingClientRect().top
+          var tocRect = this.$toc.getBoundingClientRect();
+          if (rect.top + 10 > tocRect.bottom) {
+            this.$toc.scrollTop = this.$toc.scrollTop + (rect.top - tocRect.bottom) + (rect.bottom - rect.top);
+          } else if (rect.top < tocRect.top) {
+            this.$toc.scrollTop = this.$toc.scrollTop - (tocRect.top - rect.top);
+          }
+        }
+        current = children[i].querySelector('ol');
+        index++;
+        break;
+      }      
+    }
+    
+  }
+}
+
+function findActiveClause(root, path) {
+  var clauses = new ClauseWalker(root);
+  var $clause;
+  var found = false;
+  var path = path || [];
+  
+  while ($clause = clauses.nextNode()) {
+    var rect = $clause.getBoundingClientRect();
+    var $header = $clause.children[0];
+    var marginTop = parseInt(getComputedStyle($header)["margin-top"]);
+    
+    if ((rect.top - marginTop) <= 0 && rect.bottom > 0) {
+      found = true;
+      return findActiveClause($clause, path.concat($clause)) || path;
+    }
+  }
+  
+  return path;
+}
+
+function ClauseWalker(root) {
+  var previous;
+  var treeWalker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_ELEMENT,
+    {
+      acceptNode: function (node) {
+        if (previous === node.parentNode) {
+          return NodeFilter.FILTER_REJECT;
+        } else {
+          previous = node;
+        }
+        if (node.nodeName === 'EMU-CLAUSE' || node.nodeName === 'EMU-INTRO' || node.nodeName === 'EMU-ANNEX') {
+          return NodeFilter.FILTER_ACCEPT;
+        } else {
+          return NodeFilter.FILTER_SKIP;
+        }
+      }
+    },
+    false
+    );
+  
+  return treeWalker;
+}
+
+Menu.prototype.toggle = function () {
+  this.$menu.classList.toggle('active');
+}
+
+Menu.prototype.show = function () {
+  this.$menu.classList.add('active');
+}
+
+Menu.prototype.hide = function () {
+  this.$menu.classList.remove('active');
+}
+
+Menu.prototype.isVisible = function() {
+  return this.$menu.classList.contains('active');
+}
+
+Menu.prototype.showPins = function () {
+  this.$pins.classList.add('active');
+}
+
+Menu.prototype.hidePins = function () {
+  this.$pins.classList.remove('active');
+}
+
+Menu.prototype.addPinEntry = function (id) {
+  var entry = this.search.biblio.byId[id];
+  if (!entry) {
+    // id was deleted after pin (or something) so remove it
+    delete this._pinnedIds[id];
+    this.persistPinEntries();
+    return;
+  }
+
+  if (entry.type === 'clause') {
+    var prefix;
+    if (entry.number) {
+      prefix = entry.number + ' ';
+    } else {
+      prefix = '';
+    }
+    this.$pinList.innerHTML += '<li><a href="#' + entry.id + '">' + prefix + entry.titleHTML + '</a></li>';
+  } else {
+    this.$pinList.innerHTML += '<li><a href="#' + entry.id + '">' + entry.key + '</a></li>';
+  }
+
+  if (Object.keys(this._pinnedIds).length === 0) {
+    this.showPins();
+  }
+  this._pinnedIds[id] = true;
+  this.persistPinEntries();
+}
+
+Menu.prototype.removePinEntry = function (id) {
+  var item = this.$pinList.querySelector('a[href="#' + id + '"]').parentNode;
+  this.$pinList.removeChild(item);
+  delete this._pinnedIds[id];
+  if (Object.keys(this._pinnedIds).length === 0) {
+    this.hidePins();
+  }
+
+  this.persistPinEntries();
+}
+
+Menu.prototype.persistPinEntries = function () {
+  try {
+    if (!window.localStorage) return;
+  } catch (e) {
+    return;
+  }
+
+  localStorage.pinEntries = JSON.stringify(Object.keys(this._pinnedIds));
+}
+
+Menu.prototype.loadPinEntries = function () {
+  try {
+    if (!window.localStorage) return;
+  } catch (e) {
+    return;
+  }
+  
+  var pinsString = window.localStorage.pinEntries;
+  if (!pinsString) return;
+  var pins = JSON.parse(pinsString);
+  for(var i = 0; i < pins.length; i++) {
+    this.addPinEntry(pins[i]);
+  }
+}
+
+Menu.prototype.togglePinEntry = function (id) {
+  if (!id) {
+    id = this.$activeClause[this.$activeClause.length - 1].id;
+  }
+
+  if (this._pinnedIds[id]) {
+    this.removePinEntry(id);
+  } else {
+    this.addPinEntry(id);
+  }
+}
+
+Menu.prototype.selectPin = function (num) {
+  document.location = this.$pinList.children[num].children[0].href;
+}
+
+var menu;
+function init() {
+  menu = new Menu();
+  var $container = document.getElementById('spec-container');
+  $container.addEventListener('mouseover', debounce(function (e) {
+    Toolbox.activateIfMouseOver(e);
+  }));
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+function debounce(fn, opts) {
+  opts = opts || {};
+  var timeout;
+  return function(e) {
+    if (opts.stopPropagation) {
+      e.stopPropagation();
+    }
+    var args = arguments;
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(function() {
+      timeout = null;
+      fn.apply(this, args);
+    }.bind(this), 150);
+  }
+}
+
+var CLAUSE_NODES = ['EMU-CLAUSE', 'EMU-INTRO', 'EMU-ANNEX'];
+function findLocalReferences ($elem) {
+  var name = $elem.innerHTML;
+  var references = [];
+
+  var parentClause = $elem.parentNode;
+  while (parentClause && CLAUSE_NODES.indexOf(parentClause.nodeName) === -1) {
+    parentClause = parentClause.parentNode;
+  }
+
+  if(!parentClause) return;
+
+  var vars = parentClause.querySelectorAll('var');
+
+  for (var i = 0; i < vars.length; i++) {
+    var $var = vars[i];
+
+    if ($var.innerHTML === name) {
+      references.push($var);
+    }
+  }
+
+  return references;
+}
+
+function toggleFindLocalReferences($elem) {
+  var references = findLocalReferences($elem);
+  if ($elem.classList.contains('referenced')) {
+    references.forEach(function ($reference) {
+      $reference.classList.remove('referenced');
+    });
+  } else {
+    references.forEach(function ($reference) {
+      $reference.classList.add('referenced');
+    });
+  }
+}
+
+function installFindLocalReferences () {
+  document.addEventListener('click', function (e) {
+    if (e.target.nodeName === 'VAR') {
+      toggleFindLocalReferences(e.target);
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', installFindLocalReferences);
+
+
+
+
+// The following license applies to the fuzzysearch function
+// The MIT License (MIT)
+// Copyright © 2015 Nicolas Bevacqua
+// Copyright © 2016 Brian Terlson
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+function fuzzysearch (searchString, haystack, caseInsensitive) {
+  var tlen = haystack.length;
+  var qlen = searchString.length;
+  var chunks = 1;
+  var finding = false;
+  var prefix = true;
+  
+  if (qlen > tlen) {
+    return false;
+  }
+  
+  if (qlen === tlen) {
+    if (searchString === haystack) {
+      return { caseMatch: true, chunks: 1, prefix: true };
+    } else if (searchString.toLowerCase() === haystack.toLowerCase()) {
+      return { caseMatch: false, chunks: 1, prefix: true };
+    } else {
+      return false;
+    }
+  }
+  
+  outer: for (var i = 0, j = 0; i < qlen; i++) {
+    var nch = searchString[i];
+    while (j < tlen) {
+      var targetChar = haystack[j++];
+      if (targetChar === nch) {
+        finding = true;
+        continue outer;
+      }
+      if (finding) {
+        chunks++;
+        finding = false;
+      }
+    }
+    
+    if (caseInsensitive) { return false }
+    
+    return fuzzysearch(searchString.toLowerCase(), haystack.toLowerCase(), true);
+  }
+  
+  return { caseMatch: !caseInsensitive, chunks: chunks, prefix: j <= qlen };
+}
+
+var Toolbox = {
+  init: function () {
+    this.$container = document.createElement('div');
+    this.$container.classList.add('toolbox');
+    this.$permalink = document.createElement('a');
+    this.$permalink.textContent = 'Permalink';
+    this.$pinLink = document.createElement('a');
+    this.$pinLink.textContent = 'Pin';
+    this.$pinLink.setAttribute('href', '#');
+    this.$pinLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      menu.togglePinEntry(this.entry.id);
+    }.bind(this));
+
+    this.$refsLink = document.createElement('a');
+    this.$refsLink.setAttribute('href', '#');
+    this.$refsLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      referencePane.showReferencesFor(this.entry);
+    }.bind(this));
+    this.$container.appendChild(this.$permalink);
+    this.$container.appendChild(this.$pinLink);
+    this.$container.appendChild(this.$refsLink);
+    document.body.appendChild(this.$container);
+  },
+
+  activate: function (el, entry, target) {
+    if (el === this._activeEl) return;
+    this.active = true;
+    this.entry = entry;
+    this.$container.classList.add('active');
+    this.top = el.offsetTop - this.$container.offsetHeight - 10;
+    this.left = el.offsetLeft;
+    this.$container.setAttribute('style', 'left: ' + this.left + 'px; top: ' + this.top + 'px');
+    this.updatePermalink();
+    this.updateReferences();
+    this._activeEl = el;
+    if (this.top < document.body.scrollTop && el === target) {
+      // don't scroll unless it's a small thing (< 200px)
+      this.$container.scrollIntoView();
+    }
+  },
+
+  updatePermalink: function () {
+    this.$permalink.setAttribute('href', '#' + this.entry.id);
+  },
+
+  updateReferences: function () {
+    this.$refsLink.textContent = 'References (' + this.entry.referencingIds.length + ')';
+  },
+
+  activateIfMouseOver: function (e) {
+    var ref = this.findReferenceUnder(e.target);
+    if (ref && (!this.active || e.pageY > this._activeEl.offsetTop)) {
+      var entry = menu.search.biblio.byId[ref.id];
+      this.activate(ref.element, entry, e.target);
+    } else if (this.active && ((e.pageY < this.top) || e.pageY > (this._activeEl.offsetTop + this._activeEl.offsetHeight))) {
+      this.deactivate();
+    }
+  },
+
+  findReferenceUnder: function (el) {
+    while (el) {
+      var parent = el.parentNode;
+      if (el.nodeName === 'H1' && parent.nodeName.match(/EMU-CLAUSE|EMU-ANNEX|EMU-INTRO/) && parent.id) {
+        return { element: el, id: parent.id };
+      } else if (el.nodeName.match(/EMU-(?!CLAUSE|XREF|ANNEX|INTRO)|DFN/) &&
+                el.id && el.id[0] !== '_') {
+        if (el.nodeName === 'EMU-FIGURE' || el.nodeName === 'EMU-TABLE' || el.nodeName === 'EMU-EXAMPLE') {
+          // return the figcaption element
+          return { element: el.children[0].children[0], id: el.id };
+        } else if (el.nodeName === 'EMU-PRODUCTION') {
+          // return the LHS non-terminal element
+          return { element: el.children[0], id: el.id };
+        } else {
+          return { element: el, id: el.id };
+        }
+      }
+      el = parent;
+    }
+  },
+
+  deactivate: function () {
+    this.$container.classList.remove('active');
+    this._activeEl = null;
+    this.activeElBounds = null;
+    this.active = false;
+  }
+}
+
+var referencePane = {
+  init: function() {
+    this.$container = document.createElement('div');
+    this.$container.setAttribute('id', 'references-pane-container');
+
+    var $spacer = document.createElement('div');
+    $spacer.setAttribute('id', 'references-pane-spacer');
+
+    this.$pane = document.createElement('div');
+    this.$pane.setAttribute('id', 'references-pane');
+
+    this.$container.appendChild($spacer);
+    this.$container.appendChild(this.$pane);
+
+    this.$header = document.createElement('div');
+    this.$header.classList.add('menu-pane-header');
+    this.$header.textContent = 'References to ';
+    this.$headerRefId = document.createElement('a');
+    this.$header.appendChild(this.$headerRefId);
+    this.$closeButton = document.createElement('span');
+    this.$closeButton.setAttribute('id', 'references-pane-close');
+    this.$closeButton.addEventListener('click', function (e) {
+      this.deactivate();
+    }.bind(this));
+    this.$header.appendChild(this.$closeButton);
+
+    this.$pane.appendChild(this.$header);
+    var tableContainer = document.createElement('div');
+    tableContainer.setAttribute('id', 'references-pane-table-container');
+
+    this.$table = document.createElement('table');
+    this.$table.setAttribute('id', 'references-pane-table');
+
+    this.$tableBody = this.$table.createTBody();
+
+    tableContainer.appendChild(this.$table);
+    this.$pane.appendChild(tableContainer);
+
+    menu.$specContainer.appendChild(this.$container);
+  },
+
+  activate: function () {
+    this.$container.classList.add('active');
+  },
+
+  deactivate: function () {
+    this.$container.classList.remove('active');
+  },
+
+  showReferencesFor(entry) {
+    this.activate();
+    var newBody = document.createElement('tbody');
+    var previousId;
+    var previousCell;
+    var dupCount = 0;
+    this.$headerRefId.textContent = '#' + entry.id;
+    this.$headerRefId.setAttribute('href', '#' + entry.id);
+    entry.referencingIds.map(function (id) {
+      var target = document.getElementById(id);
+      var cid = findParentClauseId(target);
+      var clause = menu.search.biblio.byId[cid];
+      var dupCount = 0;
+      return { id: id, clause: clause }
+    }).sort(function (a, b) {
+      return sortByClauseNumber(a.clause, b.clause);
+    }).forEach(function (record, i) {
+      if (previousId === record.clause.id) {
+        previousCell.innerHTML += ' (<a href="#' + record.id + '">' + (dupCount + 2) + '</a>)';
+        dupCount++;
+      } else {
+        var row = newBody.insertRow();
+        var cell = row.insertCell();
+        cell.innerHTML = record.clause.number;
+        cell = row.insertCell();
+        cell.innerHTML = '<a href="#' + record.id + '">' + record.clause.titleHTML + '</a>';
+        previousCell = cell;
+        previousId = record.clause.id;
+        dupCount = 0;
+      }
+    }, this);
+    this.$table.removeChild(this.$tableBody);
+    this.$tableBody = newBody;
+    this.$table.appendChild(this.$tableBody);
+  }
+}
+function findParentClauseId(node) {
+  while (node && node.nodeName !== 'EMU-CLAUSE' && node.nodeName !== 'EMU-INTRO' && node.nodeName !== 'EMU-ANNEX') {
+    node = node.parentNode;
+  }
+  if (!node) return null;
+  return node.getAttribute('id');
+}
+
+function sortByClauseNumber(c1, c2) {
+  var c1c = c1.number.split('.');
+  var c2c = c2.number.split('.');
+
+  for (var i = 0; i < c1c.length; i++) {
+    if (i >= c2c.length) {
+      return 1;
+    }
+    
+    var c1 = c1c[i];
+    var c2 = c2c[i];
+    var c1cn = Number(c1);
+    var c2cn = Number(c2);
+
+    if (Number.isNaN(c1cn) && Number.isNaN(c2cn)) {
+      if (c1 > c2) {
+        return 1;
+      } else if (c1 < c2) {
+        return -1;
+      }
+    } else if (!Number.isNaN(c1cn) && Number.isNaN(c2cn)) {
+      return -1;
+    } else if (Number.isNaN(c1cn) && !Number.isNaN(c2cn)) {
+      return 1;
+    } else if(c1cn > c2cn) {
+      return 1;
+    } else if (c1cn < c2cn) {
+      return -1;
+    }
+  }
+
+  if (c1c.length === c2c.length) {
+    return 0;
+  }
+  return -1;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  Toolbox.init();
+  referencePane.init();
+})
+var CLAUSE_NODES = ['EMU-CLAUSE', 'EMU-INTRO', 'EMU-ANNEX'];
+function findLocalReferences ($elem) {
+  var name = $elem.innerHTML;
+  var references = [];
+
+  var parentClause = $elem.parentNode;
+  while (parentClause && CLAUSE_NODES.indexOf(parentClause.nodeName) === -1) {
+    parentClause = parentClause.parentNode;
+  }
+
+  if(!parentClause) return;
+
+  var vars = parentClause.querySelectorAll('var');
+
+  for (var i = 0; i < vars.length; i++) {
+    var $var = vars[i];
+
+    if ($var.innerHTML === name) {
+      references.push($var);
+    }
+  }
+
+  return references;
+}
+
+function toggleFindLocalReferences($elem) {
+  var references = findLocalReferences($elem);
+  if ($elem.classList.contains('referenced')) {
+    references.forEach(function ($reference) {
+      $reference.classList.remove('referenced');
+    });
+  } else {
+    references.forEach(function ($reference) {
+      $reference.classList.add('referenced');
+    });
+  }
+}
+
+function installFindLocalReferences () {
+  document.addEventListener('click', function (e) {
+    if (e.target.nodeName === 'VAR') {
+      toggleFindLocalReferences(e.target);
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', installFindLocalReferences);
+</script><style>body {
+  display: flex;
+  font-size: 18px;
+  line-height: 1.5;
+  font-family: Cambria, Palatino Linotype, Palatino, Liberation Serif, serif;
+  padding: 0;
+  margin: 0;
+  color: #111;
+}
+
+#spec-container {
+  padding: 0 20px;
+  flex-grow: 1;
+  flex-basis: 66%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body.oldtoc {
+  margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+    color: #206ca7;
+}
+
+a:visited {
+  color: #206ca7;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #239dee;
+}
+
+
+code {
+    font-weight: bold;
+    font-family: Consolas, Monaco, monospace;
+    white-space: pre;
+}
+
+pre code {
+  font-weight: inherit;
+}
+
+pre code.hljs {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+ol.toc {
+    list-style: none;
+    padding-left: 0;
+}
+
+ol.toc ol.toc {
+    padding-left: 2ex;
+    list-style: none;
+}
+
+var {
+  color: #2aa198;
+  transition: background-color 0.25s ease;
+  cursor: pointer;
+}
+
+var.referenced {
+  background-color: #ffff33;
+}
+
+emu-const {
+  font-family: sans-serif;
+}
+
+emu-val {
+  font-weight: bold;
+}
+emu-alg ol, emu-alg ol ol ol ol {
+    list-style-type: decimal;
+}
+
+emu-alg ol ol, emu-alg ol ol ol ol ol {
+    list-style-type: lower-alpha;
+}
+
+emu-alg ol ol ol, ol ol ol ol ol ol {
+    list-style-type: lower-roman;
+}
+
+emu-eqn {
+  display: block;
+  margin-left: 4em;
+}
+
+emu-eqn.inline {
+  display: inline;
+  margin: 0;
+}
+
+emu-eqn div:first-child {
+  margin-left: -2em;
+}
+
+emu-note {
+    margin: 1em 0;
+    color: #666;
+    border-left: 5px solid #ccc;
+    display: flex;
+    flex-direction: row;
+}
+
+emu-note > span.note {
+    flex-basis: 100px;
+    min-width: 100px;
+    flex-grow: 0;
+    flex-shrink: 1;
+    text-transform: uppercase;
+    padding-left: 5px;
+}
+
+emu-note[type=editor] {
+  border-left-color: #faa;
+}
+
+emu-note > div.note-contents {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+emu-note > div.note-contents > p:first-child {
+  margin-top: 0;
+}
+
+emu-note > div.note-contents > p:last-child {
+  margin-bottom: 0;
+}
+
+emu-figure {
+  display: block;
+}
+
+emu-example {
+  display: block;
+  margin: 1em 3em;
+}
+
+emu-example figure figcaption {
+  margin-top: 0.5em;
+  text-align: left;
+}
+
+emu-figure figure,
+emu-example figure,
+emu-table figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+emu-production {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 5ex;
+}
+
+
+emu-grammar.inline, emu-production.inline,
+emu-grammar.inline emu-production emu-rhs, emu-production.inline emu-rhs {
+  display: inline;
+}
+
+emu-grammar[collapsed] emu-production, emu-production[collapsed] {
+    margin: 0;
+}
+
+emu-grammar[collapsed] emu-production emu-rhs, emu-production[collapsed] emu-rhs {
+    display: inline;
+    padding-left: 1ex;
+}
+
+emu-constraints {
+    font-size: .75em;
+    margin-right: 1ex;
+}
+
+emu-gann {
+    margin-right: 1ex;
+}
+
+emu-gann emu-t:last-child,
+emu-gann emu-nt:last-child {
+    margin-right: 0;
+}
+
+emu-geq {
+    margin-left: 1ex;
+    font-weight: bold;
+}
+
+emu-oneof {
+    font-weight: bold;
+    margin-left: 1ex;
+}
+
+emu-nt {
+    display: inline-block;
+    font-style: italic;
+    white-space: nowrap;
+    text-indent: 0;
+}
+
+emu-nt a, emu-nt a:visited {
+  color: #333;
+}
+
+emu-rhs emu-nt {
+    margin-right: 1ex;
+}
+
+emu-t {
+    display: inline-block;
+    font-family: monospace;
+    font-weight: bold;
+    white-space: nowrap;
+    text-indent: 0;
+}
+
+emu-production emu-t {
+    margin-right: 1ex;
+}
+
+emu-rhs {
+    display: block;
+    padding-left: 75px;
+    text-indent: -25px;
+}
+
+emu-mods {
+    font-size: .85em;
+    vertical-align: sub;
+    font-style: normal;
+    font-weight: normal;
+}
+
+emu-production[collapsed] emu-mods {
+  display: none;
+}
+
+emu-params, emu-opt {
+  margin-right: 1ex;
+  font-family: monospace;
+}
+
+emu-params, emu-constraints {
+  color: #2aa198;
+}
+
+emu-opt {
+  color: #b58900;
+}
+
+emu-gprose {
+    font-size: 0.9em;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+h1.shortname {
+  color: #f60;
+  font-size: 1.5em;
+  margin: 0;
+}
+
+h1.version {
+  color: #f60;
+  font-size: 1.5em;
+  margin: 0;
+}
+
+h1.title {
+  margin-top: 0;
+  color: #f60;
+}
+
+h1.first {
+  margin-top: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    position: relative;
+}
+
+h1 .secnum {
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+h1 span.title {
+  order: 2;
+}
+
+
+h1 { font-size: 2.67em; margin-top: 2em; margin-bottom: 0; line-height: 1em;}
+h2 { font-size: 2em; }
+h3 { font-size: 1.56em; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1.11em; }
+h6 { font-size: 1em; }
+
+h1:hover span.utils {
+  display: block;
+}
+
+span.utils {
+  font-size: 18px;
+  line-height: 18px;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  font-weight: normal;
+}
+
+span.utils:before {
+    content: "⤷";
+    display: inline-block;
+    padding: 0 5px;
+}
+
+span.utils > * {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+h1 span.utils span.anchor a,
+h2 span.utils span.anchor a,
+h3 span.utils span.anchor a,
+h4 span.utils span.anchor a,
+h5 span.utils span.anchor a,
+h6 span.utils span.anchor a {
+  text-decoration: none;
+  font-variant: small-caps;
+}
+
+h1 span.utils span.anchor a:hover,
+h2 span.utils span.anchor a:hover,
+h3 span.utils span.anchor a:hover,
+h4 span.utils span.anchor a:hover,
+h5 span.utils span.anchor a:hover,
+h6 span.utils span.anchor a:hover {
+  color: #333;
+}
+
+emu-intro h1, emu-clause h1, emu-annex h1 { font-size: 2em; }
+emu-intro h2, emu-clause h2, emu-annex h2 { font-size: 1.56em; }
+emu-intro h3, emu-clause h3, emu-annex h3 { font-size: 1.25em; }
+emu-intro h4, emu-clause h4, emu-annex h4 { font-size: 1.11em; }
+emu-intro h5, emu-clause h5, emu-annex h5 { font-size: 1em; }
+emu-intro h6, emu-clause h6, emu-annex h6 { font-size: 0.9em; }
+emu-intro emu-intro h1, emu-clause emu-clause h1, emu-annex emu-annex h1 { font-size: 1.56em; }
+emu-intro emu-intro h2, emu-clause emu-clause h2, emu-annex emu-annex h2 { font-size: 1.25em; }
+emu-intro emu-intro h3, emu-clause emu-clause h3, emu-annex emu-annex h3 { font-size: 1.11em; }
+emu-intro emu-intro h4, emu-clause emu-clause h4, emu-annex emu-annex h4 { font-size: 1em; }
+emu-intro emu-intro h5, emu-clause emu-clause h5, emu-annex emu-annex h5 { font-size: 0.9em; }
+emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex h1 { font-size: 1.25em; }
+emu-intro emu-intro emu-intro h2, emu-clause emu-clause emu-clause h2, emu-annex emu-annex emu-annex h2 { font-size: 1.11em; }
+emu-intro emu-intro emu-intro h3, emu-clause emu-clause emu-clause h3, emu-annex emu-annex emu-annex h3 { font-size: 1em; }
+emu-intro emu-intro emu-intro h4, emu-clause emu-clause emu-clause h4, emu-annex emu-annex emu-annex h4 { font-size: 0.9em; }
+emu-intro emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex emu-annex h1 { font-size: 1.11em; }
+emu-intro emu-intro emu-intro emu-intro h2, emu-clause emu-clause emu-clause emu-clause h2, emu-annex emu-annex emu-annex emu-annex h2 { font-size: 1em; }
+emu-intro emu-intro emu-intro emu-intro h3, emu-clause emu-clause emu-clause emu-clause h3, emu-annex emu-annex emu-annex emu-annex h3 { font-size: 0.9em; }
+emu-intro emu-intro emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex emu-annex emu-annex h1 { font-size: 1em; }
+emu-intro emu-intro emu-intro emu-intro emu-intro h2, emu-clause emu-clause emu-clause emu-clause emu-clause h2, emu-annex emu-annex emu-annex emu-annex emu-annex h2 { font-size: 0.9em; }
+emu-intro emu-intro emu-intro emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex emu-annex emu-annex emu-annex h1 { font-size: 0.9em }
+
+emu-clause, emu-intro, emu-annex {
+    display: block;
+}
+
+/* Figures and tables */
+figure { display: block; margin: 1em 0 3em 0; }
+figure object { display: block; margin: 0 auto; }
+figure table.real-table { margin: 0 auto; }
+figure figcaption {
+    display: block;
+    color: #555555;
+    font-weight: bold;
+    text-align: center;
+}
+
+emu-table table {
+  margin: 0 auto;
+}
+
+emu-table table, table.real-table {
+    border-collapse: collapse;
+}
+
+emu-table td, emu-table th, table.real-table td, table.real-table th {
+    border: 1px solid black;
+    padding: 0.4em;
+    vertical-align: baseline;
+}
+emu-table th, emu-table thead td, table.real-table th {
+    background-color: #eeeeee;
+}
+
+/* Note: the left content edges of table.lightweight-table >tbody >tr >td
+   and div.display line up. */
+table.lightweight-table {
+    border-collapse: collapse;
+    margin: 0 0 0 1.5em;
+}
+table.lightweight-table td, table.lightweight-table th {
+    border: none;
+    padding: 0 0.5em;
+    vertical-align: baseline;
+}
+
+/* diff styles */
+ins {
+    background-color: #e0f8e0;
+    text-decoration: none;
+    border-bottom: 1px solid #396;
+}
+
+del {
+    background-color: #fee;
+}
+
+ins.block, del.block,
+emu-production > ins, emu-production > del,
+emu-grammar > ins, emu-grammar > del {
+  display: block;
+}
+
+/* Menu Styles */
+#menu-toggle {
+  font-size: 2em;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1.5em;
+  height: 1.5em;
+  z-index: 3;
+  visibility: hidden;
+  color: #1567a2;
+  background-color: #fff;
+
+  line-height: 1.5em;
+  text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;;
+
+  cursor: pointer;
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  width: 33%; height: 100vh;
+  max-width: 500px;
+  box-sizing: border-box;
+  background-color: #ddd;
+  overflow: hidden;
+  transition: opacity 0.1s linear;
+  padding: 0 5px;
+  position: fixed;
+  left: 0; top: 0;
+  border-right: 2px solid #bbb;
+
+  z-index: 2;
+}
+
+#menu-spacer {
+  flex-basis: 33%;
+  max-width: 500px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+#menu a {
+  color: #1567a2;
+}
+
+#menu.active {
+  display: flex;
+  opacity: 1;
+  z-index: 2;
+}
+
+#menu-pins {
+  flex-grow: 1;
+  display: none;
+}
+
+#menu-pins.active {
+  display: block;
+}
+
+#menu-pins-list {
+  margin: 0;
+  padding: 0;
+  counter-reset: pins-counter;
+}
+
+#menu-pins-list > li:before {
+  content: counter(pins-counter);
+  counter-increment: pins-counter;
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  border: 1px solid #bbb;
+  padding: 2px;
+  margin: 4px;
+  box-sizing: border-box;
+  line-height: 1em;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+#menu-toc > ol {
+  padding: 0;
+  flex-grow: 1;
+}
+
+#menu-toc > ol li {
+  padding: 0;
+}
+
+#menu-toc > ol , #menu-toc > ol ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#menu-toc > ol ol {
+  padding-left: 0.75em;
+}
+
+#menu-toc li {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#menu-toc .item-toggle {
+  display: inline-block;
+  transform: rotate(-45deg) translate(-5px, -5px);
+  transition: transform 0.1s ease;
+  text-align: center;
+  width: 20px;
+
+  color: #aab;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;;
+
+  cursor: pointer;
+}
+
+#menu-toc .item-toggle-none {
+  display: inline-block;
+  width: 20px;
+}
+
+#menu-toc li.active > .item-toggle {
+  transform: rotate(45deg) translate(-5px, -5px);
+}
+
+#menu-toc li > ol {
+  display: none;
+}
+
+#menu-toc li.active > ol {
+  display: block;
+}
+
+#menu-toc li.revealed > a {
+  background-color: #bbb;
+  font-weight: bold;
+  /*
+  background-color: #222;
+  color: #c6d8e4;
+  */
+}
+
+#menu-toc li.revealed-leaf> a {
+  color: #206ca7;
+  /*
+  background-color: #222;
+  color: #c6d8e4;
+  */
+}
+
+#menu-toc li.revealed > .item-toggle {
+  transform: rotate(45deg) translate(-5px, -5px);
+}
+
+#menu-toc li.revealed > ol {
+  display: block;
+}
+
+#menu-toc li > a {
+  padding: 2px 5px;
+}
+
+#menu > * {
+  margin-bottom: 5px;
+}
+
+.menu-pane-header {
+  padding: 0 5px;
+  text-transform: uppercase;
+  background-color: #aaa;
+  color: #335;
+  font-weight: bold;
+  letter-spacing: 2px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 0.8em;
+}
+
+#menu-toc {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+#menu-toc ol.toc {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#menu-search {
+  position: relative;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  
+  max-height: 300px;
+}
+
+#menu-trace-list {
+  display: none;
+}
+
+#menu-search-box {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  margin: 5px 0 0 0;
+  font-size: 1em;
+  padding: 2px;
+  background-color: #bbb;
+  border: 1px solid #999;
+}
+
+#menu-search-results {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+li.menu-search-result-clause:before {
+    content: 'clause';
+    width: 40px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 1ex;
+    color: #666;
+    font-size: 75%;
+}
+li.menu-search-result-op:before {
+    content: 'op';
+    width: 40px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 1ex;
+    color: #666;
+    font-size: 75%;
+}
+
+li.menu-search-result-prod:before {
+    content: 'prod';
+    width: 40px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 1ex;
+    color: #666;
+    font-size: 75%
+}
+
+
+li.menu-search-result-term:before {
+    content: 'term';
+    width: 40px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 1ex;
+    color: #666;
+    font-size: 75%
+}
+
+#menu-search-results ul {
+  padding: 0 5px;
+  margin: 0;
+}
+
+#menu-search-results li {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+#menu-trace-list {
+  counter-reset: item;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+#menu-trace-list li {
+  display: block;
+  white-space: nowrap;
+}
+
+#menu-trace-list li .secnum:after {
+  content: " ";
+}
+#menu-trace-list li:before {
+    content: counter(item) " ";
+    background-color: #222;
+    counter-increment: item;
+    color: #999;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    text-align: center;
+    margin: 2px 4px 2px 0;
+}
+
+@media (max-width: 1000px) {
+  body {
+    margin: 0;
+    display: block;
+  }
+
+  #menu {
+    display: none;
+    padding-top: 3em;
+    width: 450px;
+  }
+
+  #menu.active {
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    right: 300px;
+  }
+
+  #menu-toggle {
+    visibility: visible;
+  }
+
+  #spec-container {
+    padding: 0 5px;
+  }
+
+  #references-pane-spacer {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #menu {
+    width: 100%;
+  }
+
+  h1 .secnum:empty {
+    margin: 0; padding: 0;
+  }
+}
+
+
+/* Toolbox */
+.toolbox {
+	position: absolute;
+	background: #ddd;
+	border: 1px solid #aaa;
+  display: none;
+  color: #eee;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.toolbox.active {
+  display: inline-block;
+}
+
+.toolbox a {
+  text-decoration: none;
+  padding: 0 5px;
+}
+
+.toolbox a:hover {
+  text-decoration: underline;
+}
+
+.toolbox:after, .toolbox:before {
+	top: 100%;
+	left: 15px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.toolbox:after {
+	border-color: rgba(0, 0, 0, 0);
+	border-top-color: #ddd;
+	border-width: 10px;
+	margin-left: -10px;
+}
+.toolbox:before {
+	border-color: rgba(204, 204, 204, 0);
+	border-top-color: #aaa;
+	border-width: 12px;
+	margin-left: -12px;
+}
+
+#references-pane-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
+  display: none;
+  background-color: #ddd;
+  z-index: 1;
+}
+
+#references-pane-table-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#references-pane-spacer {
+  flex-basis: 33%;
+  max-width: 500px;
+}
+
+#references-pane {
+  flex-grow: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#references-pane-container.active {
+  display: flex;
+}
+
+#references-pane-close:after {
+  content: '✖';
+  float: right;
+  cursor: pointer;
+}
+
+#references-pane table tr td:first-child {
+  text-align: right;
+  padding-right: 5px;
+}
+</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-patterns" title="Patterns (#sec-patterns)"><span class="secnum">1</span> Patterns (</a><a href="https://tc39.github.io/ecma262/#sec-patterns">#sec-patterns</a>)</li><li><span class="item-toggle-none"></span><a href="#sec-patterns-static-semantics-early-errors" title="Static Semantics: Early Errors (#sec-patterns-static-semantics-early-errors)"><span class="secnum">2</span> SS: Early Errors (</a><a href="https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors">#sec-patterns-static-semantics-early-errors</a>)</li><li><span class="item-toggle-none"></span><a href="#sec-backreference-matcher" title="Runtime Semantics: BackreferenceMatcher Abstract Operation"><span class="secnum">3</span> RS: BackreferenceMatcher Abstract Operation</a></li><li><span class="item-toggle-none"></span><a href="#sec-atomescape" title="AtomEscape"><span class="secnum">4</span> AtomEscape</a></li><li><span class="item-toggle-none"></span><a href="#sec-regexpinitialize" title="Runtime Semantics: RegExpInitialize ( obj, pattern, flags )"><span class="secnum">5</span> RS: RegExpInitialize ( <var>obj</var>, <var>pattern</var>, <var>flags</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-regexpbuiltinexec" title="Runtime Semantics: RegExpBuiltinExec ( R, S )"><span class="secnum">6</span> RS: RegExpBuiltinExec ( <var>R</var>, <var>S</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-getsubstitution" title="Runtime Semantics: GetSubstitution( matched, str, position, captures,  namedCaptures, replacement )"><span class="secnum">7</span> RS: GetSubstitution( <var>matched</var>, <var>str</var>, <var>position</var>, <var>captures</var>,  <ins><var>namedCaptures</var>,</ins> <var>replacement</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-regexp.prototype-@@replace" title="RegExp.prototype [ @@replace ] ( string, replaceValue )"><span class="secnum">8</span> RegExp.prototype [ @@replace ] ( <var>string</var>, <var>replaceValue</var> )</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage 2 Draft / January 24, 2017</h1><h1 class="title">Named capture groups in regular expressions</h1>
 <script src="ecmarkup.js" defer=""></script>
 <link rel="stylesheet" href="ecmarkup.css">
 
 <emu-clause id="sec-patterns">
   <h1><span class="secnum">1</span>Patterns (<a href="https://tc39.github.io/ecma262/#sec-patterns">#sec-patterns</a>)</h1>
   <h2>Syntax</h2>
-  <emu-grammar><emu-production name="Atom" params="U" type="lexical" id="prod-Atom">
-    <emu-nt params="U"><a href="#prod-Atom">Atom</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="beff52c4"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-PatternCharacter">PatternCharacter</a></emu-nt></emu-rhs>
+  <emu-grammar><emu-production name="Atom" params="U<ins>, N</ins>" type="lexical" id="prod-Atom">
+    <emu-nt params="U<ins>, N</ins>"><a href="#prod-Atom">Atom</a><emu-mods><emu-params>[U<ins>, N</ins>]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="beff52c4"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-PatternCharacter">PatternCharacter</a></emu-nt></emu-rhs>
     <emu-rhs a="9658e473"><emu-t>.</emu-t></emu-rhs>
-    <emu-rhs a="360729b9"><emu-t>\</emu-t><emu-nt params="?U" id="_ref_18"><a href="#prod-AtomEscape">AtomEscape</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <emu-rhs a="72a5dc04"><emu-nt params="?U"><a href="https://tc39.github.io/ecma262/#prod-CharacterClass">CharacterClass</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <emu-rhs a="eb6786f5"><emu-t>(</emu-t><ins>
-        <emu-nt id="_ref_19"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt></ins><emu-nt params="?U"><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t></emu-rhs>
-    <emu-rhs a="a3359f62"><emu-t>(</emu-t><emu-t>?</emu-t><emu-t>:</emu-t><emu-nt params="?U"><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t></emu-rhs>
+    <emu-rhs a="60fd7386"><emu-t>\</emu-t><emu-nt params="?U<ins>, ?N</ins>" id="_ref_56"><a href="#prod-AtomEscape">AtomEscape</a><emu-mods><emu-params>[?U<ins>, ?N</ins>]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="f17f5598"><emu-nt params="?U<ins>, ?N</ins>"><a href="https://tc39.github.io/ecma262/#prod-CharacterClass">CharacterClass</a><emu-mods><emu-params>[?U<ins>, ?N</ins>]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-rhs a="d1e7fbe3"><emu-t>(</emu-t><ins>
+        <emu-nt id="_ref_57"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt></ins><emu-nt params="?U<ins>, ?N</ins>"><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a><emu-mods><emu-params>[?U<ins>, ?N</ins>]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t></emu-rhs>
+    <emu-rhs a="9d0775f7"><emu-t>(</emu-t><emu-t>?</emu-t><emu-t>:</emu-t><emu-nt params="?U<ins>, ?N</ins>"><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a><emu-mods><emu-params>[?U<ins>, ?N</ins>]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t></emu-rhs>
 </emu-production>
-<emu-production name="AtomEscape" params="U" type="lexical" id="prod-AtomEscape">
-    <emu-nt params="U"><a href="#prod-AtomEscape">AtomEscape</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="7ebff96c"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-DecimalEscape">DecimalEscape</a></emu-nt></emu-rhs>
+<emu-production name="AtomEscape" params="U<ins>, N</ins>" type="lexical" id="prod-AtomEscape">
+    <emu-nt params="U<ins>, N</ins>"><a href="#prod-AtomEscape">AtomEscape</a><emu-mods><emu-params>[U<ins>, N</ins>]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="7ebff96c"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-DecimalEscape">DecimalEscape</a></emu-nt></emu-rhs>
     <emu-rhs a="6f05bee4"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-CharacterClassEscape">CharacterClassEscape</a></emu-nt></emu-rhs>
     <emu-rhs a="4b80816a"><emu-nt params="?U"><a href="https://tc39.github.io/ecma262/#prod-CharacterEscape">CharacterEscape</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt></emu-rhs><ins>
-    <emu-rhs a="c1c219d2" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>k</emu-t><emu-nt id="_ref_20"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
+    <emu-rhs a="2b1cf9d3" constraints="+N"><emu-constraints>[+N]</emu-constraints><emu-t>k</emu-t><emu-nt id="_ref_58"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
 </ins></emu-production>
 <ins><emu-production name="GroupSpecifier" type="lexical" id="prod-GroupSpecifier">
     <emu-nt><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="37b9c04c"><emu-gann>[empty]</emu-gann></emu-rhs>
-    <emu-rhs a="d30986c6" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>?</emu-t><emu-nt id="_ref_21"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
+    <emu-rhs a="ba7e5837" constraints="+N"><emu-constraints>[+N]</emu-constraints><emu-t>?</emu-t><emu-nt id="_ref_59"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="GroupName" type="lexical" id="prod-GroupName">
     <emu-nt><a href="#prod-GroupName">GroupName</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="47bcbefc"><emu-t>&lt;</emu-t><emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt><emu-t>&gt;</emu-t></emu-rhs>
@@ -35,32 +1815,22 @@
 <emu-clause id="sec-patterns-static-semantics-early-errors">
   <h1><span class="secnum">2</span>Static Semantics: Early Errors (<a href="https://tc39.github.io/ecma262/#sec-patterns-static-semantics-early-errors">#sec-patterns-static-semantics-early-errors</a>)</h1>
   <ins class="block">
-    <emu-grammar><emu-production name="Atom" collapsed="">
-    <emu-nt><a href="#prod-Atom">Atom</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="eb6786f5"><emu-t>(</emu-t><emu-nt id="_ref_22"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt><emu-nt params="?U"><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a><emu-mods><emu-params>[?U]</emu-params></emu-mods></emu-nt><emu-t>)</emu-t></emu-rhs>
+    <emu-grammar><emu-production name="Pattern" type="lexical" collapsed="" id="prod-Pattern">
+    <emu-nt><a href="#prod-Pattern">Pattern</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="79a5bbd0"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a></emu-nt></emu-rhs>
 </emu-production></emu-grammar>
     <ul>
       <li>
-        It is a Syntax Error if <emu-nt id="_ref_23"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> contains an <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> whose StringValue is <code>"length"</code>, <code>"index"</code> or <code>"input"</code>.
+        It is a Syntax Error if <emu-nt id="_ref_60"><a href="#prod-Pattern">Pattern</a></emu-nt> contains multiple <emu-nt id="_ref_61"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt>s whose enclosed <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>s have the same StringValue.
       
       </li>
     </ul>
 
-    <emu-grammar><emu-production name="Pattern" collapsed="" id="prod-Pattern">
-    <emu-nt><a href="#prod-Pattern">Pattern</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="79a5bbd0"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a></emu-nt></emu-rhs>
+    <emu-grammar><emu-production name="AtomEscape" params="U" type="lexical" collapsed="">
+    <emu-nt params="U"><a href="#prod-AtomEscape">AtomEscape</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>::</emu-geq><emu-rhs a="c1c219d2" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>k</emu-t><emu-nt id="_ref_62"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
 </emu-production></emu-grammar>
     <ul>
       <li>
-        It is a Syntax Error if <emu-nt id="_ref_24"><a href="#prod-Pattern">Pattern</a></emu-nt> contains multiple <emu-nt id="_ref_25"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt>s whose enclosed <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>s have the same StringValue.
-      
-      </li>
-    </ul>
-
-    <emu-grammar><emu-production name="AtomEscape" params="U" collapsed="">
-    <emu-nt params="U"><a href="#prod-AtomEscape">AtomEscape</a><emu-mods><emu-params>[U]</emu-params></emu-mods></emu-nt><emu-geq>:</emu-geq><emu-rhs a="c1c219d2" constraints="+U"><emu-constraints>[+U]</emu-constraints><emu-t>k</emu-t><emu-nt id="_ref_26"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
-</emu-production></emu-grammar>
-    <ul>
-      <li>
-        It is a Syntax Error if the enclosing RegExp does not contain a <emu-nt id="_ref_27"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> with an enclosed <emu-nt>IdentiferName</emu-nt> whose StringValue equals the StringValue of the <emu-nt>IdentierName</emu-nt> of this production's <emu-nt id="_ref_28"><a href="#prod-GroupName">GroupName</a></emu-nt>.
+        It is a Syntax Error if the enclosing RegExp does not contain a <emu-nt id="_ref_63"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> with an enclosed <emu-nt>IdentiferName</emu-nt> whose StringValue equals the StringValue of the <emu-nt>IdentierName</emu-nt> of this production's <emu-nt id="_ref_64"><a href="#prod-GroupName">GroupName</a></emu-nt>.
       
       </li>
     </ul>
@@ -70,7 +1840,7 @@
 <emu-clause id="sec-backreference-matcher" aoid="BackreferenceMatcher">
   <h1><span class="secnum">3</span>Runtime Semantics: BackreferenceMatcher Abstract Operation</h1>
   <p>The abstract operation BackreferenceMatcher takes one argument, an integer <var>n</var>, and performs the following steps:</p>
-  <emu-alg><ol><li>Return an internal Matcher closure that takes two arguments, a State <var>x</var> and a Continuation <var>c</var>, and performs the following steps:<ol><li>Let <var>cap</var> be <var>x</var>'s <var>captures</var> <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>Let <var>s</var> be <var>cap</var>[<var>n</var>].</li><li>If <var>s</var> is <emu-val>undefined</emu-val>, return <var>c</var>(<var>x</var>).</li><li>Let <var>e</var> be <var>x</var>'s <var>endIndex</var>.</li><li>Let <var>len</var> be <var>s</var>'s length.</li><li>Let <var>f</var> be <var>e</var>+<var>len</var>.</li><li>If <var>f</var>&gt;<var>InputLength</var>, return <emu-const>failure</emu-const>.</li><li>If there exists an integer <var>i</var> between 0 (inclusive) and <var>len</var> (exclusive) such that <emu-xref aoid="Canonicalize" id="_ref_0"><a href="https://tc39.github.io/ecma262/#sec-runtime-semantics-canonicalize-ch">Canonicalize</a></emu-xref>(<var>s</var>[<var>i</var>]) is not the same character value as <emu-xref aoid="Canonicalize" id="_ref_1"><a href="https://tc39.github.io/ecma262/#sec-runtime-semantics-canonicalize-ch">Canonicalize</a></emu-xref>(<var>Input</var>[<var>e</var>+<var>i</var>]), return <emu-const>failure</emu-const>.</li><li>Let <var>y</var> be the State (<var>f</var>, <var>cap</var>).</li><li>Call <var>c</var>(<var>y</var>) and return its result.
+  <emu-alg><ol><li>Return an internal Matcher closure that takes two arguments, a State <var>x</var> and a Continuation <var>c</var>, and performs the following steps:<ol><li>Let <var>cap</var> be <var>x</var>'s <var>captures</var> <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>Let <var>s</var> be <var>cap</var>[<var>n</var>].</li><li>If <var>s</var> is <emu-val>undefined</emu-val>, return <var>c</var>(<var>x</var>).</li><li>Let <var>e</var> be <var>x</var>'s <var>endIndex</var>.</li><li>Let <var>len</var> be <var>s</var>'s length.</li><li>Let <var>f</var> be <var>e</var>+<var>len</var>.</li><li>If <var>f</var>&gt;<var>InputLength</var>, return <emu-const>failure</emu-const>.</li><li>If there exists an integer <var>i</var> between 0 (inclusive) and <var>len</var> (exclusive) such that <emu-xref aoid="Canonicalize" id="_ref_2"><a href="https://tc39.github.io/ecma262/#sec-runtime-semantics-canonicalize-ch">Canonicalize</a></emu-xref>(<var>s</var>[<var>i</var>]) is not the same character value as <emu-xref aoid="Canonicalize" id="_ref_3"><a href="https://tc39.github.io/ecma262/#sec-runtime-semantics-canonicalize-ch">Canonicalize</a></emu-xref>(<var>Input</var>[<var>e</var>+<var>i</var>]), return <emu-const>failure</emu-const>.</li><li>Let <var>y</var> be the State (<var>f</var>, <var>cap</var>).</li><li>Call <var>c</var>(<var>y</var>) and return its result.
   </li></ol></li></ol></emu-alg>
   <emu-note><span class="note">Note</span><div class="note-contents">This abstract operation is extracted from the  <a href="https://tc39.github.io/ecma262/#sec-atomescape">runtime semantics</a> of  <emu-grammar><emu-production name="AtomEscape" type="lexical" collapsed="">
     <emu-nt><a href="#prod-AtomEscape">AtomEscape</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="7ebff96c"><emu-nt><a href="https://tc39.github.io/ecma262/#prod-DecimalEscape">DecimalEscape</a></emu-nt></emu-rhs>
@@ -81,23 +1851,188 @@
   <h1><span class="secnum">4</span>AtomEscape</h1>
   <ins class="block">
   <p>The production  <emu-grammar><emu-production name="AtomEscape" type="lexical" collapsed="" class=" inline">
-    <emu-nt><a href="#prod-AtomEscape">AtomEscape</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="743fd78c"><emu-t>k</emu-t><emu-nt id="_ref_29"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-AtomEscape">AtomEscape</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="743fd78c"><emu-t>k</emu-t><emu-nt id="_ref_65"><a href="#prod-GroupName">GroupName</a></emu-nt></emu-rhs>
 </emu-production></emu-grammar> evaluates as follows:</p>
-  <emu-alg><ol><li>Search the enclosing RegExp for an instance of a <emu-nt id="_ref_30"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> for an <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> which has a StringValue equal to the StringValue of the <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> contained in <emu-nt id="_ref_31"><a href="#prod-GroupName">GroupName</a></emu-nt>.</li><li>Assert: A unique such <emu-nt id="_ref_32"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> is found.</li><li>Let <var>parenIndex</var> be the number of left capturing parentheses in the entire regular expression that occur to the left of the located <emu-nt id="_ref_33"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt>. This is the total number of times the <emu-grammar><emu-production name="Atom" type="lexical" collapsed="" class=" inline">
-    <emu-nt><a href="#prod-Atom">Atom</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="59aa089b"><emu-t>(</emu-t><emu-nt id="_ref_34"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a></emu-nt><emu-t>)</emu-t></emu-rhs>
+  <emu-alg><ol><li>Search the enclosing RegExp for an instance of a <emu-nt id="_ref_66"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> for an <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> which has a StringValue equal to the StringValue of the <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> contained in <emu-nt id="_ref_67"><a href="#prod-GroupName">GroupName</a></emu-nt>.</li><li>Assert: A unique such <emu-nt id="_ref_68"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt> is found.</li><li>Let <var>parenIndex</var> be the number of left capturing parentheses in the entire regular expression that occur to the left of the located <emu-nt id="_ref_69"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt>. This is the total number of times the <emu-grammar><emu-production name="Atom" type="lexical" collapsed="" class=" inline">
+    <emu-nt><a href="#prod-Atom">Atom</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="59aa089b"><emu-t>(</emu-t><emu-nt id="_ref_70"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a></emu-nt><emu-t>)</emu-t></emu-rhs>
 </emu-production></emu-grammar> production is expanded prior to that production's <emu-nt><a href="https://tc39.github.io/ecma262/#prod-Term">Term</a></emu-nt> plus the total number of <emu-grammar><emu-production name="Atom" type="lexical" collapsed="" class=" inline">
-    <emu-nt><a href="#prod-Atom">Atom</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="59aa089b"><emu-t>(</emu-t><emu-nt id="_ref_35"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a></emu-nt><emu-t>)</emu-t></emu-rhs>
-</emu-production></emu-grammar> productions enclosing this <emu-nt><a href="https://tc39.github.io/ecma262/#prod-Term">Term</a></emu-nt>.</li><li>Call <emu-xref aoid="BackreferenceMatcher" id="_ref_2"><a href="#sec-backreference-matcher">BackreferenceMatcher</a></emu-xref>(<var>parenIndex</var>) and return its Matcher result.
+    <emu-nt><a href="#prod-Atom">Atom</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="59aa089b"><emu-t>(</emu-t><emu-nt id="_ref_71"><a href="#prod-GroupSpecifier">GroupSpecifier</a></emu-nt><emu-nt><a href="https://tc39.github.io/ecma262/#prod-Disjunction">Disjunction</a></emu-nt><emu-t>)</emu-t></emu-rhs>
+</emu-production></emu-grammar> productions enclosing this <emu-nt><a href="https://tc39.github.io/ecma262/#prod-Term">Term</a></emu-nt>.</li><li>Call <emu-xref aoid="BackreferenceMatcher" id="_ref_4"><a href="#sec-backreference-matcher">BackreferenceMatcher</a></emu-xref>(<var>parenIndex</var>) and return its Matcher result.
     </li></ol></emu-alg>
   </ins>
+</emu-clause>
+
+<emu-clause id="sec-regexpinitialize" aoid="RegExpInitialize">
+  <h1><span class="secnum">5</span>Runtime Semantics: RegExpInitialize ( <var>obj</var>, <var>pattern</var>, <var>flags</var> )</h1>
+  <p>When the abstract operation RegExpInitialize with arguments <var>obj</var>, <var>pattern</var>, and <var>flags</var> is called, the following steps are taken:</p>
+  <emu-alg><ol><li>If <var>pattern</var> is <emu-val>undefined</emu-val>, let <var>P</var> be the empty String.</li><li>Else, let <var>P</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_5"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>pattern</var>).</li><li>If <var>flags</var> is <emu-val>undefined</emu-val>, let <var>F</var> be the empty String.</li><li>Else, let <var>F</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_6"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>flags</var>).</li><li>If <var>F</var> contains any code unit other than <code>"g"</code>, <code>"i"</code>, <code>"m"</code>, <code>"u"</code>, or <code>"y"</code> or if it contains the same code unit more than once, throw a <emu-val>SyntaxError</emu-val> exception.</li><li>If <var>F</var> contains <code>"u"</code>, let <var>BMP</var> be <emu-val>false</emu-val>; else let <var>BMP</var> be <emu-val>true</emu-val>.</li><li>If <var>BMP</var> is <emu-val>true</emu-val>, then<ol><li>Parse <var>P</var> using the grammars in <emu-xref href="#sec-patterns" id="_ref_0"><a href="#sec-patterns">1</a></emu-xref> and interpreting each of its 16-bit elements as a Unicode BMP code point. UTF-16 decoding is not applied to the elements. The <emu-xref href="#sec-context-free-grammars"><a href="https://tc39.github.io/ecma262/#sec-context-free-grammars">goal symbol</a></emu-xref> for the parse is <emu-nt params="~U<ins>, ~N</ins>" id="_ref_72"><a href="#prod-Pattern">Pattern</a><emu-mods><emu-params>[~U<ins>, ~N</ins>]</emu-params></emu-mods></emu-nt>. <ins>If the result of parsing contains a <emu-nt id="_ref_73"><a href="#prod-GroupName">GroupName</a></emu-nt>, reparse with the <emu-xref href="#sec-context-free-grammars"><a href="https://tc39.github.io/ecma262/#sec-context-free-grammars">goal symbol</a></emu-xref> <emu-nt params="~U, +N" id="_ref_74"><a href="#prod-Pattern">Pattern</a><emu-mods><emu-params>[~U, +N]</emu-params></emu-mods></emu-nt> and use this result instead.</ins> Throw a <emu-val>SyntaxError</emu-val> exception if <var>P</var> did not conform to the grammar in either parsing attempt, if any elements of <var>P</var> were not matched by the parse, or if any Early Error conditions exist.</li><li>Let <var>patternCharacters</var> be a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> whose elements are the code unit elements of <var>P</var>.</li></ol></li><li>Else,<ol><li>Parse <var>P</var> using the grammars in <emu-xref href="#sec-patterns" id="_ref_1"><a href="#sec-patterns">1</a></emu-xref> and interpreting <var>P</var> as UTF-16 encoded Unicode code points (<emu-xref href="#sec-ecmascript-language-types-string-type"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-language-types-string-type">6.1.4</a></emu-xref>). The <emu-xref href="#sec-context-free-grammars"><a href="https://tc39.github.io/ecma262/#sec-context-free-grammars">goal symbol</a></emu-xref> for the parse is <emu-nt params="+U<ins>, +N</ins>" id="_ref_75"><a href="#prod-Pattern">Pattern</a><emu-mods><emu-params>[+U<ins>, +N</ins>]</emu-params></emu-mods></emu-nt>. Throw a <emu-val>SyntaxError</emu-val> exception if <var>P</var> did not conform to the grammar, if any elements of <var>P</var> were not matched by the parse, or if any Early Error conditions exist.</li><li>Let <var>patternCharacters</var> be a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> whose elements are the code points resulting from applying UTF-16 decoding to <var>P</var>'s sequence of elements.</li></ol></li><li>Set <var>obj</var>.[[OriginalSource]] to <var>P</var>.</li><li>Set <var>obj</var>.[[OriginalFlags]] to <var>F</var>.</li><li>Set <var>obj</var>.[[RegExpMatcher]] to the internal procedure that evaluates the above parse of <var>P</var> by applying the semantics provided in <emu-xref href="#sec-pattern-semantics"><a href="https://tc39.github.io/ecma262/#sec-pattern-semantics">21.2.2</a></emu-xref> using <var>patternCharacters</var> as the pattern's <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of <emu-nt><a href="https://tc39.github.io/ecma262/#prod-SourceCharacter">SourceCharacter</a></emu-nt> values and <var>F</var> as the flag parameters.</li><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_7"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>obj</var>, <code>"lastIndex"</code>, 0, <emu-val>true</emu-val>).</li><li>Return <var>obj</var>.
+  </li></ol></emu-alg>
 </emu-clause>
 
 
 <!-- es6num="21.2.5.2.2" -->
 <emu-clause id="sec-regexpbuiltinexec" aoid="RegExpBuiltinExec">
-  <h1><span class="secnum">5</span>Runtime Semantics: RegExpBuiltinExec ( <var>R</var>, <var>S</var> )</h1>
+  <h1><span class="secnum">6</span>Runtime Semantics: RegExpBuiltinExec ( <var>R</var>, <var>S</var> )</h1>
   <p>The abstract operation RegExpBuiltinExec with arguments <var>R</var> and <var>S</var> performs the following steps:</p>
-  <emu-alg><ol><li>Assert: <var>R</var> is an initialized RegExp instance.</li><li>Assert: <emu-xref aoid="Type" id="_ref_3"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>S</var>) is String.</li><li>Let <var>length</var> be the number of code units in <var>S</var>.</li><li>Let <var>flags</var> be <var>R</var>.[[OriginalFlags]].</li><li>If <var>flags</var> contains <code>"g"</code>, let <var>global</var> be <emu-val>true</emu-val>, else let <var>global</var> be <emu-val>false</emu-val>.</li><li>If <var>flags</var> contains <code>"y"</code>, let <var>sticky</var> be <emu-val>true</emu-val>, else let <var>sticky</var> be <emu-val>false</emu-val>.</li><li>If <var>global</var> is <emu-val>false</emu-val> and <var>sticky</var> is <emu-val>false</emu-val>, let <var>lastIndex</var> be 0.</li><li>Else, let <var>lastIndex</var> be ?&nbsp;<emu-xref aoid="ToLength" id="_ref_4"><a href="https://tc39.github.io/ecma262/#sec-tolength">ToLength</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_5"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>)).</li><li>Let <var>matcher</var> be <var>R</var>.[[RegExpMatcher]].</li><li>If <var>flags</var> contains <code>"u"</code>, let <var>fullUnicode</var> be <emu-val>true</emu-val>, else let <var>fullUnicode</var> be <emu-val>false</emu-val>.</li><li>Let <var>matchSucceeded</var> be <emu-val>false</emu-val>.</li><li>Repeat, while <var>matchSucceeded</var> is <emu-val>false</emu-val><ol><li>If <var>lastIndex</var> &gt; <var>length</var>, then<ol><li>If <var>global</var> is <emu-val>true</emu-val> or <var>sticky</var> is <emu-val>true</emu-val>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_6"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>, 0, <emu-val>true</emu-val>).</li></ol></li><li>Return <emu-val>null</emu-val>.</li></ol></li><li>Let <var>r</var> be <var>matcher</var>(<var>S</var>, <var>lastIndex</var>).</li><li>If <var>r</var> is <emu-const>failure</emu-const>, then<ol><li>If <var>sticky</var> is <emu-val>true</emu-val>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_7"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>, 0, <emu-val>true</emu-val>).</li><li>Return <emu-val>null</emu-val>.</li></ol></li><li>Let <var>lastIndex</var> be <emu-xref aoid="AdvanceStringIndex" id="_ref_8"><a href="https://tc39.github.io/ecma262/#sec-advancestringindex">AdvanceStringIndex</a></emu-xref>(<var>S</var>, <var>lastIndex</var>, <var>fullUnicode</var>).</li></ol></li><li>Else,<ol><li>Assert: <var>r</var> is a State.</li><li>Set <var>matchSucceeded</var> to <emu-val>true</emu-val>.</li></ol></li></ol></li><li>Let <var>e</var> be <var>r</var>'s <var>endIndex</var> value.</li><li>If <var>fullUnicode</var> is <emu-val>true</emu-val>, then<ol><li><var>e</var> is an index into the <var>Input</var> character list, derived from <var>S</var>, matched by <var>matcher</var>. Let <var>eUTF</var> be the smallest index into <var>S</var> that corresponds to the character at element <var>e</var> of <var>Input</var>. If <var>e</var> is greater than or equal to the length of <var>Input</var>, then <var>eUTF</var> is the number of code units in <var>S</var>.</li><li>Let <var>e</var> be <var>eUTF</var>.</li></ol></li><li>If <var>global</var> is <emu-val>true</emu-val> or <var>sticky</var> is <emu-val>true</emu-val>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_9"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>, <var>e</var>, <emu-val>true</emu-val>).</li></ol></li><li>Let <var>n</var> be the length of <var>r</var>'s <var>captures</var> <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>. (This is the same value as <emu-xref href="#sec-notation"><a href="https://tc39.github.io/ecma262/#sec-notation">21.2.2.1</a></emu-xref>'s <var>NcapturingParens</var>.)</li><li>Let <var>A</var> be <emu-xref aoid="ArrayCreate" id="_ref_10"><a href="https://tc39.github.io/ecma262/#sec-arraycreate">ArrayCreate</a></emu-xref>(<var>n</var> + 1).</li><li>Assert: The value of <var>A</var>'s <code>"length"</code> property is <var>n</var> + 1.</li><li>Let <var>matchIndex</var> be <var>lastIndex</var>.</li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_11"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"index"</code>, <var>matchIndex</var>).</li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_12"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"input"</code>, <var>S</var>).</li><li>Let <var>matchedSubstr</var> be the matched substring (i.e. the portion of <var>S</var> between offset <var>lastIndex</var> inclusive and offset <var>e</var> exclusive).</li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_13"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"0"</code>, <var>matchedSubstr</var>).</li><li>For each integer <var>i</var> such that <var>i</var> &gt; 0 and <var>i</var> ≤ <var>n</var><ol><li>Let <var>captureI</var> be <var>i</var><sup>th</sup> element of <var>r</var>'s <var>captures</var> <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>If <var>captureI</var> is <emu-val>undefined</emu-val>, let <var>capturedValue</var> be <emu-val>undefined</emu-val>.</li><li>Else if <var>fullUnicode</var> is <emu-val>true</emu-val>, then<ol><li>Assert: <var>captureI</var> is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of code points.</li><li>Let <var>capturedValue</var> be a string whose code units are the <emu-xref aoid="UTF16Encoding" id="_ref_14"><a href="https://tc39.github.io/ecma262/#sec-utf16encoding">UTF16Encoding</a></emu-xref> of the code points of <var>captureI</var>.</li></ol></li><li>Else <var>fullUnicode</var> is <emu-val>false</emu-val>,<ol><li>Assert: <var>captureI</var> is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of code units.</li><li>Let <var>capturedValue</var> be a string consisting of the code units of <var>captureI</var>.</li></ol></li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_15"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, !&nbsp;<emu-xref aoid="ToString" id="_ref_16"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>i</var>), <var>capturedValue</var>).</li><li><ins>If the <var>i</var>th capture of <var>R</var> was defined with a <emu-nt id="_ref_36"><a href="#prod-GroupName">GroupName</a></emu-nt>,</ins><ol><li><ins>Let <var>s</var> be the StringValue of the corresponding <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>.</ins></li><li><ins>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_17"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <var>s</var>, <var>capturedValue</var>).</ins></li></ol></li></ol></li><li>Return <var>A</var>.
+  <emu-alg><ol><li>Assert: <var>R</var> is an initialized RegExp instance.</li><li>Assert: <emu-xref aoid="Type" id="_ref_8"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>S</var>) is String.</li><li>Let <var>length</var> be the number of code units in <var>S</var>.</li><li>Let <var>flags</var> be <var>R</var>.[[OriginalFlags]].</li><li>If <var>flags</var> contains <code>"g"</code>, let <var>global</var> be <emu-val>true</emu-val>, else let <var>global</var> be <emu-val>false</emu-val>.</li><li>If <var>flags</var> contains <code>"y"</code>, let <var>sticky</var> be <emu-val>true</emu-val>, else let <var>sticky</var> be <emu-val>false</emu-val>.</li><li>If <var>global</var> is <emu-val>false</emu-val> and <var>sticky</var> is <emu-val>false</emu-val>, let <var>lastIndex</var> be 0.</li><li>Else, let <var>lastIndex</var> be ?&nbsp;<emu-xref aoid="ToLength" id="_ref_9"><a href="https://tc39.github.io/ecma262/#sec-tolength">ToLength</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_10"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>)).</li><li>Let <var>matcher</var> be <var>R</var>.[[RegExpMatcher]].</li><li>If <var>flags</var> contains <code>"u"</code>, let <var>fullUnicode</var> be <emu-val>true</emu-val>, else let <var>fullUnicode</var> be <emu-val>false</emu-val>.</li><li>Let <var>matchSucceeded</var> be <emu-val>false</emu-val>.</li><li>Repeat, while <var>matchSucceeded</var> is <emu-val>false</emu-val><ol><li>If <var>lastIndex</var> &gt; <var>length</var>, then<ol><li>If <var>global</var> is <emu-val>true</emu-val> or <var>sticky</var> is <emu-val>true</emu-val>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_11"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>, 0, <emu-val>true</emu-val>).</li></ol></li><li>Return <emu-val>null</emu-val>.</li></ol></li><li>Let <var>r</var> be <var>matcher</var>(<var>S</var>, <var>lastIndex</var>).</li><li>If <var>r</var> is <emu-const>failure</emu-const>, then<ol><li>If <var>sticky</var> is <emu-val>true</emu-val>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_12"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>, 0, <emu-val>true</emu-val>).</li><li>Return <emu-val>null</emu-val>.</li></ol></li><li>Let <var>lastIndex</var> be <emu-xref aoid="AdvanceStringIndex" id="_ref_13"><a href="https://tc39.github.io/ecma262/#sec-advancestringindex">AdvanceStringIndex</a></emu-xref>(<var>S</var>, <var>lastIndex</var>, <var>fullUnicode</var>).</li></ol></li><li>Else,<ol><li>Assert: <var>r</var> is a State.</li><li>Set <var>matchSucceeded</var> to <emu-val>true</emu-val>.</li></ol></li></ol></li><li>Let <var>e</var> be <var>r</var>'s <var>endIndex</var> value.</li><li>If <var>fullUnicode</var> is <emu-val>true</emu-val>, then<ol><li><var>e</var> is an index into the <var>Input</var> character list, derived from <var>S</var>, matched by <var>matcher</var>. Let <var>eUTF</var> be the smallest index into <var>S</var> that corresponds to the character at element <var>e</var> of <var>Input</var>. If <var>e</var> is greater than or equal to the length of <var>Input</var>, then <var>eUTF</var> is the number of code units in <var>S</var>.</li><li>Let <var>e</var> be <var>eUTF</var>.</li></ol></li><li>If <var>global</var> is <emu-val>true</emu-val> or <var>sticky</var> is <emu-val>true</emu-val>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_14"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>R</var>, <code>"lastIndex"</code>, <var>e</var>, <emu-val>true</emu-val>).</li></ol></li><li>Let <var>n</var> be the length of <var>r</var>'s <var>captures</var> <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>. (This is the same value as <emu-xref href="#sec-notation"><a href="https://tc39.github.io/ecma262/#sec-notation">21.2.2.1</a></emu-xref>'s <var>NcapturingParens</var>.)</li><li>Let <var>A</var> be <emu-xref aoid="ArrayCreate" id="_ref_15"><a href="https://tc39.github.io/ecma262/#sec-arraycreate">ArrayCreate</a></emu-xref>(<var>n</var> + 1).</li><li>Assert: The value of <var>A</var>'s <code>"length"</code> property is <var>n</var> + 1.</li><li>Let <var>matchIndex</var> be <var>lastIndex</var>.</li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_16"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"index"</code>, <var>matchIndex</var>).</li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_17"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"input"</code>, <var>S</var>).</li><li>Let <var>matchedSubstr</var> be the matched substring (i.e. the portion of <var>S</var> between offset <var>lastIndex</var> inclusive and offset <var>e</var> exclusive).</li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_18"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"0"</code>, <var>matchedSubstr</var>).</li><li><ins>If <var>R</var> contains any <emu-nt id="_ref_76"><a href="#prod-GroupName">GroupName</a></emu-nt>,</ins><ol><li><ins>Let <var>groups</var> be <emu-xref aoid="ObjectCreate" id="_ref_19"><a href="https://tc39.github.io/ecma262/#sec-objectcreate">ObjectCreate</a></emu-xref>(<emu-val>null</emu-val>).</ins></li><li><ins>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_20"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, <code>"groups"</code>, <var>groups</var>).</ins></li></ol></li><li>For each integer <var>i</var> such that <var>i</var> &gt; 0 and <var>i</var> ≤ <var>n</var><ol><li>Let <var>captureI</var> be <var>i</var><sup>th</sup> element of <var>r</var>'s <var>captures</var> <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>If <var>captureI</var> is <emu-val>undefined</emu-val>, let <var>capturedValue</var> be <emu-val>undefined</emu-val>.</li><li>Else if <var>fullUnicode</var> is <emu-val>true</emu-val>, then<ol><li>Assert: <var>captureI</var> is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of code points.</li><li>Let <var>capturedValue</var> be a string whose code units are the <emu-xref aoid="UTF16Encoding" id="_ref_21"><a href="https://tc39.github.io/ecma262/#sec-utf16encoding">UTF16Encoding</a></emu-xref> of the code points of <var>captureI</var>.</li></ol></li><li>Else <var>fullUnicode</var> is <emu-val>false</emu-val>,<ol><li>Assert: <var>captureI</var> is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of code units.</li><li>Let <var>capturedValue</var> be a string consisting of the code units of <var>captureI</var>.</li></ol></li><li>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_22"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>A</var>, !&nbsp;<emu-xref aoid="ToString" id="_ref_23"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>i</var>), <var>capturedValue</var>).</li><li><ins>If the <var>i</var>th capture of <var>R</var> was defined with a <emu-nt id="_ref_77"><a href="#prod-GroupName">GroupName</a></emu-nt>,</ins><ol><li><ins>Let <var>s</var> be the StringValue of the corresponding <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>.</ins></li><li><ins>Perform !&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_24"><a href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>groups</var>, <var>s</var>, <var>capturedValue</var>).</ins></li></ol></li></ol></li><li>Return <var>A</var>.
   </li></ol></emu-alg>
+</emu-clause>
+
+<emu-clause id="sec-getsubstitution" aoid="GetSubstitution">
+  <h1><span class="secnum">7</span>Runtime Semantics: GetSubstitution( <var>matched</var>, <var>str</var>, <var>position</var>, <var>captures</var>,  <ins><var>namedCaptures</var>,</ins> <var>replacement</var> )</h1>
+  <emu-table id="table-45" caption="Replacement Text Symbol Substitutions"><figure><figcaption>Table 1: Replacement Text Symbol Substitutions</figcaption>
+    <table>
+      <tbody>
+      <tr>
+        <th>
+          Code units
+        
+        </th>
+        <th>
+          Unicode Characters
+        
+        </th>
+        <th>
+          Replacement text
+        
+        </th>
+      </tr>
+      <tr>
+        <td>
+          0x0024, 0x0024
+        
+        </td>
+        <td>
+          <code>$$</code>
+        
+        </td>
+        <td>
+          <code>$</code>
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+          0x0024, 0x0026
+        
+        </td>
+        <td>
+          <code>$&amp;</code>
+        
+        </td>
+        <td>
+          <var>matched</var>
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+          0x0024, 0x0060
+        
+        </td>
+        <td>
+          <code>$`</code>
+        </td>
+        <td>
+          If <var>position</var> is 0, the replacement is the empty String. Otherwise the replacement is the substring of <var>str</var> that starts at index 0 and whose last code unit is at index <var>position</var> - 1.
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+          0x0024, 0x0027
+        
+        </td>
+        <td>
+          <code>$'</code>
+        
+        </td>
+        <td>
+          If <var>tailPos</var> ≥ <var>stringLength</var>, the replacement is the empty String. Otherwise the replacement is the substring of <var>str</var> that starts at index <var>tailPos</var> and continues to the end of <var>str</var>.
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+          0x0024, N
+          
+          <br>
+          Where
+          
+          <br>
+          0x0031 ≤ N ≤ 0x0039
+        
+        </td>
+        <td>
+          <code>$n</code> where
+          
+          <br>
+          <code>n</code> is one of <code>1 2 3 4 5 6 7 8 9</code> and <code>$n</code> is not followed by a decimal digit
+        
+        </td>
+        <td>
+          The <var>n</var><sup>th</sup> element of <var>captures</var>, where <var>n</var> is a single digit in the range 1 to 9. If <var>n</var>≤<var>m</var> and the <var>n</var><sup>th</sup> element of <var>captures</var> is <emu-val>undefined</emu-val>, use the empty String instead. If <var>n</var>&gt;<var>m</var>, the result is implementation-defined.
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+          0x0024, N, N
+          
+          <br>
+          Where
+          
+          <br>
+          0x0030 ≤ N ≤ 0x0039
+        
+        </td>
+        <td>
+          <code>$nn</code> where
+          
+          <br>
+          <code>n</code> is one of <code>0 1 2 3 4 5 6 7 8 9</code>
+        
+        </td>
+        <td>
+          The <var>nn</var><sup>th</sup> element of <var>captures</var>, where <var>nn</var> is a two-digit decimal number in the range 01 to 99. If <var>nn</var>≤<var>m</var> and the <var>nn</var><sup>th</sup> element of <var>captures</var> is <emu-val>undefined</emu-val>, use the empty String instead. If <var>nn</var> is 00 or <var>nn</var>&gt;<var>m</var>, the result is implementation-defined.
+        
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <ins>0x0024, 0x003C</ins>
+        </td>
+        <td>
+          <ins><code>$&lt;</code></ins>
+        </td>
+        <td>
+          <ins>If <var>namedCaptures</var> is <emu-val>undefined</emu-val>, the replacement text is the literal string <code>$&lt;</code>. Otherwise, scan until the next <code>&gt;</code>, throwing a <emu-val>SyntaxError</emu-val> exception if one is not found, and let the enclosed substring be <var>groupName</var>. If <var>groupName</var> does not match the <emu-nt><a href="https://tc39.github.io/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> grammar, throw a <emu-val>SyntaxError</emu-val> exception. . Let <var>capture</var> be ? <emu-xref aoid="Get" id="_ref_25"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>namedCaptures</var>, <var>groupName</var>). If <var>capture</var> is <emu-val>undefined</emu-val>, replace the text through <code>&gt;</code> with the empty string. Otherwise, replace the text through this following <code>&gt;</code> with ? <emu-xref aoid="ToString" id="_ref_26"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>capture</var>).</ins>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          0x0024
+        
+        </td>
+        <td>
+          <code>$</code> in any context that does not match any of the above.
+        
+        </td>
+        <td>
+          <code>$</code>
+        
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </figure></emu-table>
+</emu-clause>
+
+<emu-clause id="sec-regexp.prototype-@@replace">
+  <h1><span class="secnum">8</span>RegExp.prototype [ @@replace ] ( <var>string</var>, <var>replaceValue</var> )</h1>
+  <p>When the @@<code>replace</code> method is called with arguments <var>string</var> and <var>replaceValue</var>, the following steps are taken:</p>
+  <emu-alg><ol><li>Let <var>rx</var> be the <emu-val>this</emu-val> value.</li><li>If <emu-xref aoid="Type" id="_ref_27"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>rx</var>) is not Object, throw a <emu-val>TypeError</emu-val> exception.</li><li>Let <var>S</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_28"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>string</var>).</li><li>Let <var>lengthS</var> be the number of code unit elements in <var>S</var>.</li><li>Let <var>functionalReplace</var> be <emu-xref aoid="IsCallable" id="_ref_29"><a href="https://tc39.github.io/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>replaceValue</var>).</li><li>If <var>functionalReplace</var> is <emu-val>false</emu-val>, then<ol><li>Let <var>replaceValue</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_30"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>replaceValue</var>).</li></ol></li><li>Let <var>global</var> be <emu-xref aoid="ToBoolean" id="_ref_31"><a href="https://tc39.github.io/ecma262/#sec-toboolean">ToBoolean</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_32"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>rx</var>, <code>"global"</code>)).</li><li>If <var>global</var> is <emu-val>true</emu-val>, then<ol><li>Let <var>fullUnicode</var> be <emu-xref aoid="ToBoolean" id="_ref_33"><a href="https://tc39.github.io/ecma262/#sec-toboolean">ToBoolean</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_34"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>rx</var>, <code>"unicode"</code>)).</li><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_35"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>rx</var>, <code>"lastIndex"</code>, 0, <emu-val>true</emu-val>).</li></ol></li><li>Let <var>results</var> be a new empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>Let <var>done</var> be <emu-val>false</emu-val>.</li><li>Repeat, while <var>done</var> is <emu-val>false</emu-val><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="RegExpExec" id="_ref_36"><a href="https://tc39.github.io/ecma262/#sec-regexpexec">RegExpExec</a></emu-xref>(<var>rx</var>, <var>S</var>).</li><li>If <var>result</var> is <emu-val>null</emu-val>, set <var>done</var> to <emu-val>true</emu-val>.</li><li>Else <var>result</var> is not <emu-val>null</emu-val>,<ol><li>Append <var>result</var> to the end of <var>results</var>.</li><li>If <var>global</var> is <emu-val>false</emu-val>, set <var>done</var> to <emu-val>true</emu-val>.</li><li>Else,<ol><li>Let <var>matchStr</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_37"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_38"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <code>"0"</code>)).</li><li>If <var>matchStr</var> is the empty String, then<ol><li>Let <var>thisIndex</var> be ?&nbsp;<emu-xref aoid="ToLength" id="_ref_39"><a href="https://tc39.github.io/ecma262/#sec-tolength">ToLength</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_40"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>rx</var>, <code>"lastIndex"</code>)).</li><li>Let <var>nextIndex</var> be <emu-xref aoid="AdvanceStringIndex" id="_ref_41"><a href="https://tc39.github.io/ecma262/#sec-advancestringindex">AdvanceStringIndex</a></emu-xref>(<var>S</var>, <var>thisIndex</var>, <var>fullUnicode</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_42"><a href="https://tc39.github.io/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>rx</var>, <code>"lastIndex"</code>, <var>nextIndex</var>, <emu-val>true</emu-val>).</li></ol></li></ol></li></ol></li></ol></li><li>Let <var>accumulatedResult</var> be the empty String value.</li><li>Let <var>nextSourcePosition</var> be 0.</li><li>Repeat, for each <var>result</var> in <var>results</var>,<ol><li>Let <var>nCaptures</var> be ?&nbsp;<emu-xref aoid="ToLength" id="_ref_43"><a href="https://tc39.github.io/ecma262/#sec-tolength">ToLength</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_44"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <code>"length"</code>)).</li><li>Let <var>nCaptures</var> be <emu-xref aoid="max"><a href="https://tc39.github.io/ecma262/#sec-algorithm-conventions">max</a></emu-xref>(<var>nCaptures</var> - 1, 0).</li><li>Let <var>matched</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_45"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_46"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <code>"0"</code>)).</li><li>Let <var>matchLength</var> be the number of code units in <var>matched</var>.</li><li>Let <var>position</var> be ?&nbsp;<emu-xref aoid="ToInteger" id="_ref_47"><a href="https://tc39.github.io/ecma262/#sec-tointeger">ToInteger</a></emu-xref>(? <emu-xref aoid="Get" id="_ref_48"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <code>"index"</code>)).</li><li>Let <var>position</var> be <emu-xref aoid="max"><a href="https://tc39.github.io/ecma262/#sec-algorithm-conventions">max</a></emu-xref>(<emu-xref aoid="min"><a href="https://tc39.github.io/ecma262/#sec-algorithm-conventions">min</a></emu-xref>(<var>position</var>, <var>lengthS</var>), 0).</li><li>Let <var>n</var> be 1.</li><li>Let <var>captures</var> be a new empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>Repeat while <var>n</var> ≤ <var>nCaptures</var><ol><li>Let <var>capN</var> be ?&nbsp;<emu-xref aoid="Get" id="_ref_49"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, !&nbsp;<emu-xref aoid="ToString" id="_ref_50"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>n</var>)).</li><li>If <var>capN</var> is not <emu-val>undefined</emu-val>, then<ol><li>Let <var>capN</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_51"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>capN</var>).</li></ol></li><li>Append <var>capN</var> as the last element of <var>captures</var>.</li><li>Let <var>n</var> be <var>n</var>+1.</li></ol></li><li><ins>Let <var>namedCaptures</var> be ?&nbsp;<emu-xref aoid="Get" id="_ref_52"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <code>"groups"</code>).</ins></li><li>If <var>functionalReplace</var> is <emu-val>true</emu-val>, then<ol><li>Let <var>replacerArgs</var> be « <var>matched</var> ».</li><li>Append in list order the elements of <var>captures</var> to the end of the <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.github.io/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> <var>replacerArgs</var>.</li><li>Append <var>position</var> and <var>S</var> as the <del>last</del> two elements of <var>replacerArgs</var>.</li><li><ins>If <var>namedCaptures</var> is not <emu-val>undefined</emu-val>,</ins><ol><li><ins>Append <var>namedCaptures</var> as the last element of <var>replacerArgs</var>.</ins></li></ol></li><li>Let <var>replValue</var> be ?&nbsp;<emu-xref aoid="Call" id="_ref_53"><a href="https://tc39.github.io/ecma262/#sec-call">Call</a></emu-xref>(<var>replaceValue</var>, <emu-val>undefined</emu-val>, <var>replacerArgs</var>).</li><li>Let <var>replacement</var> be ?&nbsp;<emu-xref aoid="ToString" id="_ref_54"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>replValue</var>).</li></ol></li><li>Else,<ol><li>Let <var>replacement</var> be <emu-xref aoid="GetSubstitution" id="_ref_55"><a href="#sec-getsubstitution">GetSubstitution</a></emu-xref>(<var>matched</var>, <var>S</var>, <var>position</var>, <var>captures</var>, <ins><var>namedCaptures</var>,</ins> <var>replaceValue</var>).</li></ol></li><li>If <var>position</var> ≥ <var>nextSourcePosition</var>, then<ol><li>NOTE <var>position</var> should not normally move backwards. If it does, it is an indication of an ill-behaving RegExp subclass or use of an access triggered side-effect to change the global flag or other characteristics of <var>rx</var>. In such cases, the corresponding substitution is ignored.</li><li>Let <var>accumulatedResult</var> be the String formed by concatenating the code units of the current value of <var>accumulatedResult</var> with the substring of <var>S</var> consisting of the code units from <var>nextSourcePosition</var> (inclusive) up to <var>position</var> (exclusive) and with the code units of <var>replacement</var>.</li><li>Let <var>nextSourcePosition</var> be <var>position</var> + <var>matchLength</var>.</li></ol></li></ol></li><li>If <var>nextSourcePosition</var> ≥ <var>lengthS</var>, return <var>accumulatedResult</var>.</li><li>Return the String formed by concatenating the code units of <var>accumulatedResult</var> with the substring of <var>S</var> consisting of the code units from <var>nextSourcePosition</var> (inclusive) up through the final code unit of <var>S</var> (inclusive).
+  </li></ol></emu-alg>
+  <p>The value of the <code>name</code> property of this function is <code>"[Symbol.replace]"</code>.</p>
 </emu-clause>
 </div></body>
