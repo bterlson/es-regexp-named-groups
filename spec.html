@@ -372,10 +372,10 @@ contributors: Daniel Ehrenberg
         </td>
         <td>
           <emu-alg>
-            1. <ins>If _namedCaptures_ is *undefined*, the replacement text is the literal string `$&lt;`.</ins>
+            1. <ins>If _namedCaptures_ is *undefined*, the replacement text is the String `"$&lt;"`.</ins>
             1. <ins>Otherwise,</ins>
               1. <ins>Scan until the next `>`.</ins>
-              1. <ins>If none is found, the replacement text is the literal string `$&lt;`.</ins>
+              1. <ins>If none is found, the replacement text is the String `"$&lt;"`.</ins>
               1. <ins>Otherwise,</ins>
                 1. <ins>Let the enclosed substring be _groupName_.</ins>
                 1. <ins>Let _capture_ be ? Get(_namedCaptures_, _groupName_).</ins>
