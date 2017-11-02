@@ -15,7 +15,7 @@ contributors: Daniel Ehrenberg
   <h1>Patterns (<a href="https://tc39.github.io/ecma262/#sec-patterns">#sec-patterns</a>)</h1>
   <h2>Syntax</h2>
   <emu-grammar>
-        Atom[U<ins>,N</ins>] ::
+        Atom[U<ins>, N</ins>] ::
           PatternCharacter
           `.`
           `\` AtomEscape[?U<ins>, ?N</ins>]
@@ -203,7 +203,7 @@ contributors: Daniel Ehrenberg
     1. Perform ! CreateDataProperty(_A_, `"input"`, _S_).
     1. Let _matchedSubstr_ be the matched substring (i.e. the portion of _S_ between offset _lastIndex_ inclusive and offset _e_ exclusive).
     1. Perform ! CreateDataProperty(_A_, `"0"`, _matchedSubstr_).
-    1. <ins>If _R_ contains any |GroupName|,</ins>
+    1. <ins>If _R_ contains any |GroupName|, then</ins>
       1. <ins>Let _groups_ be ObjectCreate(*null*).</ins>
       1. <ins>Perform ! CreateDataProperty(_A_, `"groups"`, _groups_).</ins>
     1. For each integer _i_ such that _i_ &gt; 0 and _i_ &le; _n_
@@ -216,7 +216,7 @@ contributors: Daniel Ehrenberg
         1. Assert: _captureI_ is a List of code units.
         1. Let _capturedValue_ be a string consisting of the code units of _captureI_.
       1. Perform ! CreateDataProperty(_A_, ! ToString(_i_), _capturedValue_).
-      1. <ins>If the _i_th capture of _R_ was defined with a |GroupName|,</ins>
+      1. <ins>If the _i_th capture of _R_ was defined with a |GroupName|, then</ins>
         1. <ins>Let _s_ be the StringValue of the corresponding |RegExpIdentifierName|.</ins>
         1. <ins>Perform ! CreateDataProperty(_groups_, _s_, _capturedValue_).</ins>
     1. Return _A_.
@@ -266,7 +266,7 @@ contributors: Daniel Ehrenberg
             1. Assert: Type(_replacement_) is String.
             1. Let _tailPos_ be _position_ + _matchLength_.
             1. Let _m_ be the number of elements in _captures_.
-            1. <ins>If _namedCaptures_ is not *undefined*,</ins>
+            1. <ins>If _namedCaptures_ is not *undefined*, then</ins>
               1. <ins>Let _namedCaptures_ be ? ToObject(_namedCaptures_).</ins>
             1. Let _result_ be a String value derived from _replacement_ by copying code unit elements from _replacement_ to _result_ while performing replacements as specified in <emu-xref href="#table-45"></emu-xref>. These `$` replacements are done left-to-right, and, once such a replacement is performed, the new replacement text is not subject to further replacements.
             1. Return _result_.
@@ -360,7 +360,7 @@ contributors: Daniel Ehrenberg
           `n` is one of `0 1 2 3 4 5 6 7 8 9`
         </td>
         <td>
-          The _nn_<sup>th</sup> element of _captures_, where _nn_ is a two-digit decimal number in the range 01 to 99. If _nn_&le;_m_ and the _nn_<sup>th</sup> element of _captures_ is *undefined*, use the empty String instead. If _nn_ is 00 or _nn_&gt;_m_, the result is implementation-defined.
+          The _nn_<sup>th</sup> element of _captures_, where _nn_ is a two-digit decimal number in the range 01 to 99. If _nn_&le;_m_ and the _nn_<sup>th</sup> element of _captures_ is *undefined*, use the empty String instead. If _nn_ is 00 or _nn_&gt;_m_, no replacement is done.
         </td>
       </tr>
       <tr>
@@ -452,7 +452,7 @@ contributors: Daniel Ehrenberg
         1. Let _replacerArgs_ be &laquo; _matched_ &raquo;.
         1. Append in list order the elements of _captures_ to the end of the List _replacerArgs_.
         1. Append _position_ and _S_ <del>as the last two elements of</del><ins>to</ins> _replacerArgs_.
-        1. <ins>If _namedCaptures_ is not *undefined*,</ins>
+        1. <ins>If _namedCaptures_ is not *undefined*, then</ins>
           1. <ins>Append _namedCaptures_ as the last element of _replacerArgs_.</ins>
         1. Let _replValue_ be ? Call(_replaceValue_, *undefined*, _replacerArgs_).
         1. Let _replacement_ be ? ToString(_replValue_).
@@ -468,13 +468,13 @@ contributors: Daniel Ehrenberg
   <p>The value of the `name` property of this function is `"[Symbol.replace]"`.</p>
 </emu-clause>
 
-<emu-annex id="annex-b-grammar">
+<emu-annex id="sec-regular-expressions-patterns">
       <h1>Regular Expressions Patterns</h1>
       <p>The syntax of <emu-xref href="#sec-patterns"></emu-xref> is modified and extended as follows. These changes introduce ambiguities that are broken by the ordering of grammar productions and by contextual information. When parsing using the following grammar, each alternative is considered only if previous production alternatives do not match.</p>
       <p>This alternative pattern grammar and semantics only changes the syntax and semantics of BMP patterns. The following grammar extensions include productions parameterized with the [U] parameter. However, none of these extensions change the syntax of Unicode patterns recognized when parsing with the [U] parameter present on the goal symbol.</p>
       <h2>Syntax</h2>
-      <emu-grammar>
-        Term[U<ins>,N</ins>] ::
+      <emu-grammar type="definition">
+        Term[U<ins>, N</ins>] ::
           [+U] Assertion[+U<ins>, ?N</ins>]
           [+U] Atom[+U<ins>, ?N</ins>]
           [+U] Atom[+U<ins>, ?N</ins>] Quantifier
@@ -538,6 +538,11 @@ contributors: Daniel Ehrenberg
           [~N] SourceCharacter but not `c`
           [+N] SourceCharacter but not one of `c` or `k`
         </ins>
+
+        ClassAtomNoDash[U<ins>, N</ins>] ::
+          SourceCharacter but not one of `\` or `]` or `-`
+          `\` ClassEscape[?U, <ins>?N</ins>]
+          `\` [lookahead == `c`]
 
         ClassEscape[U<ins>, N</ins>] ::
           `b`
