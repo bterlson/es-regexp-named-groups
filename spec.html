@@ -513,11 +513,12 @@ contributors: Daniel Ehrenberg
         ExtendedPatternCharacter ::
           SourceCharacter but not one of `^` `$` `.` `*` `+` `?` `(` `)` `[` `|`
 
-        AtomEscape[U<ins>,N</ins>] ::
+        AtomEscape[U<ins>, N</ins>] ::
           [+U] DecimalEscape
           [~U] DecimalEscape [> but only if the integer value of |DecimalEscape| is &lt;= _NcapturingParens_]
           CharacterClassEscape
           CharacterEscape[~U<ins>, ?N</ins>]
+          <ins>[+N] `k` GroupName</ins>
 
         CharacterEscape[U<ins>, N</ins>] ::
           ControlEscape
