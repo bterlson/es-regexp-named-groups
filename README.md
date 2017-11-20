@@ -125,6 +125,6 @@ Ruby's syntax is identical to .NET, with named capture groups with the syntax `"
 
 ## Implementations
 
-* [V8](https://bugs.chromium.org/p/v8/issues/detail?id=5437)
+* [V8](https://bugs.chromium.org/p/v8/issues/detail?id=5437), shipping in Chrome 64
 * [Transpiler (Babel plugin)](https://github.com/DmitrySoshnikov/babel-plugin-transform-modern-regexp#named-capturing-groups)
 * [Safari](https://developer.apple.com/safari/technology-preview/release-notes/) beginning in Safari Technology Preview 40
