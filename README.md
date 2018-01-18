@@ -128,3 +128,4 @@ Ruby's syntax is identical to .NET, with named capture groups with the syntax `"
 * [V8](https://bugs.chromium.org/p/v8/issues/detail?id=5437), shipping in Chrome 64
 * [Transpiler (Babel plugin)](https://github.com/DmitrySoshnikov/babel-plugin-transform-modern-regexp#named-capturing-groups)
 * [Safari](https://developer.apple.com/safari/technology-preview/release-notes/) beginning in Safari Technology Preview 40
+* [XS](https://github.com/Moddable-OpenSource/moddable/blob/public/xs/sources/xsre.c), in [January 17, 2018 update](http://blog.moddable.tech/blog/january-17-2017-big-update-to-moddable-sdk/)()
